@@ -48,3 +48,7 @@ group :test do
 end
 
 gem "suspenders", group: [:development, :test]
+
+gem "graphql", "~> 1.10"
+
+gem 'graphiql-rails', group: :development
