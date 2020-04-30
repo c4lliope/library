@@ -10,9 +10,44 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 2020_04_30_221020) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "bookings", force: :cascade do |t|
+    t.bigint "member_id", null: false
+    t.bigint "record_id", null: false
+    t.datetime "begins_on"
+    t.datetime "landed_on"
+    t.datetime "expires_on"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["member_id"], name: "index_bookings_on_member_id"
+    t.index ["record_id"], name: "index_bookings_on_record_id"
+  end
+
+  create_table "members", force: :cascade do |t|
+    t.string "name"
+    t.string "surname"
+    t.string "email"
+    t.string "passcode"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "records", force: :cascade do |t|
+    t.string "name"
+    t.text "summary"
+    t.string "language"
+    t.string "image_url"
+    t.bigint "member_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["member_id"], name: "index_records_on_member_id"
+  end
+
+  add_foreign_key "bookings", "members"
+  add_foreign_key "bookings", "records"
+  add_foreign_key "records", "members"
 end
