@@ -4,6 +4,8 @@
   "dependencies": {
     "@babel/preset-react": "^7.9.4",
     "@babel/preset-typescript": "^7.9.0",
+    "@material-ui/core": "^4.9.12",
+    "@material-ui/icons": "^4.9.1",
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
@@ -11,7 +13,9 @@
     "@types/react": "^16.9.34",
     "@types/react-dom": "^16.9.7",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
+    "fix-image-rotation": "^2.0.0",
     "graphql-request": "^1.8.2",
+    "image-capture": "^0.4.0",
     "mobx": "^5.15.4",
     "mobx-react": "^6.2.2",
     "mobx-state-tree": "^3.16.0",
@@ -19,6 +23,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "styled-components": "^5.1.0",
     "typescript": "^3.8.3"
   },
   "version": "0.1.0",
