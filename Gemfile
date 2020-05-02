@@ -9,8 +9,8 @@ ruby "2.7.0"
 
 
 gem "autoprefixer-rails"
-
 gem "bootsnap", require: false
+gem "graphql", "~> 1.10"
 gem "honeybadger"
 gem "pg"
 gem "puma"
@@ -25,6 +25,7 @@ gem "tzinfo-data", platforms: [:mingw, :x64_mingw, :mswin, :jruby]
 gem "webpacker"
 
 group :development do
+  gem 'graphiql-rails'
   gem "listen"
   gem "rack-mini-profiler", require: false
   gem "spring"
@@ -35,8 +36,11 @@ group :development, :test do
   gem "awesome_print"
   gem "bundler-audit", ">= 0.5.0", require: false
   gem "dotenv-rails"
+  gem "factory_bot_rails", "~> 5.2"
   gem "pry-byebug"
   gem "pry-rails"
+  gem "rspec-rails", "~> 4.0"
+  gem "suspenders"
 end
 
 group :test do
@@ -46,9 +50,3 @@ group :test do
   gem "timecop"
   gem "webmock"
 end
-
-gem "suspenders", group: [:development, :test]
-
-gem "graphql", "~> 1.10"
-
-gem 'graphiql-rails', group: :development
