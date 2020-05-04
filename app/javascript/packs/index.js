@@ -3,16 +3,14 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
-import React from 'react'
+import React, { useRef } from 'react'
 import { render } from 'react-dom'
-import { createHttpClient } from "mst-gql"
-import { RootStore, StoreContext } from "./graphql"
 import { observer } from "mobx-react"
-import { useQuery } from "./graphql/reactUtils"
-import { observable, runInAction } from "mobx"
 import 'mobx-react-lite/batchingForReactDom'
-import { types } from "mobx-state-tree"
+import styled from "styled-components"
+import { runInAction } from "mobx"
 
+import Model from "./models"
 import CameraAltIcon from '@material-ui/icons/CameraAlt';
 import SimpleButton from "./camera/simple_button"
 import { makeStyles } from '@material-ui/core/styles';
@@ -20,6 +18,7 @@ import { ButtonBase } from '@material-ui/core';
 import Colors from './camera/colors';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import Camera from "./camera"
+import styledComponentsCjs from 'styled-components'
 
 const useStyles = makeStyles({
   text:{
@@ -66,30 +65,55 @@ const Error = ({ children }) => <div>Error: {children}</div>
 const Loading = () => <div>Loading</div>
 const Record = ({ record }) => <div>{record.name}</div>
 
-const Home = observer(() => {
-    const { store, error, loading, data } = useQuery(store =>
-      store.queryRecords()
-    )
-    if (error) return <Error>{error.message}</Error>
-    if (loading) return <Loading />
-    return (
-      <ul>
-        {data.records.map(record => (
-          <Record key={record.id} record={record} />
-        ))}
-      </ul>
-    )
-  })
+const Session = observer(() => {
+    // const { store, error, loading, data } = useQuery(store =>
+    //     store.queryMe()
+    // )
 
-var Model = types.model({
-    photoString: "",
-    photoWasTaken: false,
-    cameraIsOpen: false,
-}).actions(self => ({
-    set: (key, value) => { self[key] = value },
-}))
+    const input = useRef(null)
+    // const { setQuery, loading2, error2 } = useQuery()
 
-var model = Model.create({})
+    // if(error) return <Error>{error.message}</Error>
+    // if(loading) return <Loading />
+    if(!model.me) {
+        return (
+            <form onSubmit={(e) => {
+                e.preventDefault()
+                model.sign_in({ email: input.current.value })
+                console.log(`${model.me ? model.me.email : "no one"} signed in.`)
+            }}>
+                <input ref={input} type="email" placeholder="your email" />
+                <input type="submit" value="Sign In" />
+            </form>
+        )
+    }
+    const { name } = model.me;
+    return <div>Signed in as {name}.</div>
+})
+
+const Home = observer(() => (
+    model.records.length > 0
+    ? <Grid>
+        {model.records.map(record => (
+            <Record key={record.name} record={record} />
+            ))}
+      </Grid>
+    : <Loading />
+))
+
+const Grid = styled.div`
+display: grid;
+grid-template-columns: 1fr 1fr 1fr;
+
+@media(max-width: 768px) {
+    grid-template-columns: 1fr;
+}
+`
+
+var model = window.model = Model.create({})
+
+model.acquire_records()
+model.acquire_session()
   
 const Images = observer(() => {
 
@@ -129,22 +153,19 @@ const Images = observer(() => {
             }
 
             {model.cameraIsOpen
-            ? <Camera handleExit={() => runInAction(handleExit)} returnPhoto={handlePhoto} />
+            ? <Camera handleExit={runInAction(() => handleExit)} returnPhoto={handlePhoto} />
             : null
             }
         </div>
     )
 })
 
-const rootStore = RootStore.create(undefined, {
-    gqlHttpClient: createHttpClient("http://localhost:3000/graphql")
-})
-
 render(
-    <StoreContext.Provider value={rootStore}>
+    <div>
         <div>👻</div>
+        <Session/>
         <Home/>
         <Images />
-    </StoreContext.Provider>,
+    </div>,
     document.querySelector('#base')
 );

@@ -8,8 +8,17 @@ module Types
       null: false,
       description: "Library records."
 
+    field :me,
+      Types::MemberType,
+      null: true,
+      description: "Signed-in member."
+
     def records
       Record.all
+    end
+
+    def me
+      context[:signed_in_member]
     end
   end
 end
