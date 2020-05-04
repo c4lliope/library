@@ -11,6 +11,7 @@ import styled from "styled-components"
 import { runInAction } from "mobx"
 
 import Model from "./models"
+import ProcessRecord from "./process_record"
 import CameraAltIcon from '@material-ui/icons/CameraAlt';
 import SimpleButton from "./camera/simple_button"
 import { makeStyles } from '@material-ui/core/styles';
@@ -63,7 +64,15 @@ const ClickableText = (props) => {
 
 const Error = ({ children }) => <div>Error: {children}</div>
 const Loading = () => <div>Loading</div>
-const Record = ({ record }) => <div>{record.name}</div>
+const Record = ({ record, onDrop }) => (
+    <div>
+        {record.name}
+        {model.me && record.member.id === model.me.id
+        ? ["(", <span onClick={onDrop}>X</span>, ")"]
+        : null
+        }
+    </div>
+)
 
 const Session = observer(() => {
     // const { store, error, loading, data } = useQuery(store =>
@@ -92,13 +101,21 @@ const Session = observer(() => {
 })
 
 const Home = observer(() => (
-    model.records.length > 0
-    ? <Grid>
-        {model.records.map(record => (
-            <Record key={record.name} record={record} />
+    <div>
+        <ProcessRecord
+           buttonText="Add record"
+           onProcessRecord={({ name, byline, summary }) => model.add_record(name, byline, summary)}
+        />
+
+        { model.records.length > 0
+        ? <Grid>
+            {model.records.map(record => (
+                <Record key={record.name} record={record} onDrop={() => model.drop_record(record.id)} />
             ))}
-      </Grid>
-    : <Loading />
+        </Grid>
+        : <Loading />
+        }
+    </div>
 ))
 
 const Grid = styled.div`
