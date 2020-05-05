@@ -36,6 +36,7 @@ const Model = types.model({
     
     photoString: "",
     cameraIsOpen: false,
+    addingRecord: false,
     
 }).actions(self => ({
     acquire_records: () => {

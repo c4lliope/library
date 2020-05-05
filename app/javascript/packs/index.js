@@ -64,14 +64,25 @@ const ClickableText = (props) => {
 
 const Error = ({ children }) => <div>Error: {children}</div>
 const Loading = () => <div>Loading</div>
+const Image = styled.img`
+width: 100%;
+`
+
 const Record = observer(({ record, onClick, onDrop }) => (
-    <div onClick={onClick}>
-        {record.name}
+    <Border onClick={onClick}>
+        {record.name}<br/>
+        by {record.byline}
+
+        {record.image
+        ? <Image src={record.image} alt={`Image of ${record.name}`} />
+        : null
+        }
+
         {model.me && record.member.id === model.me.id
         ? <span onClick={onDrop}>(X)</span>
         : null
         }
-    </div>
+    </Border>
 ))
 
 const Session = observer(() => {
@@ -100,12 +111,24 @@ const Session = observer(() => {
     return <div>Signed in as {name}.</div>
 })
 
+const Border = styled.div`
+border: 1px solid grey;
+padding: 1rem;
+`
+
 const Home = observer(() => (
     <div>
-        <ProcessRecord
-           buttonText="Add record"
-           onProcessRecord={({ name, byline, summary }) => model.add_record(name, byline, summary)}
-        />
+        {model.addingRecord
+        ?  <Border>
+            <ProcessRecord
+            buttonText="Add record"
+            onProcessRecord={({ name, byline, summary }) => model.add_record(name, byline, summary)}
+            />
+            <span onClick={() => model.set("addingRecord", false)} >Cancel</span>
+           </Border>
+        :
+            <span onClick={() => model.set("addingRecord", true)} >Add record</span>
+        }
 
         { model.records.length > 0
         ? <Grid>
