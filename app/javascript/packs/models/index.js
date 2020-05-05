@@ -21,23 +21,25 @@ const Record = types.model({
     byline: types.maybeNull(types.string),
     summary: types.maybeNull(types.string),
     language: "English (assumed)",
-    image_url: types.maybeNull(types.string),
+    image: types.maybeNull(types.string),
     member: Member,
 }).actions(self => ({
+    change_image: (image) => { self.image = image },
 }))
 
 const Model = types.model({
     records: types.array(Record),
     members: types.array(Member),
     me: types.maybeNull(Member),
+
+    focused_record: types.maybeNull(types.reference(Record)),
     
     photoString: "",
-    photoWasTaken: false,
     cameraIsOpen: false,
     
 }).actions(self => ({
     acquire_records: () => {
-        graph(`query { records { id name summary member { id name email }}}`)()
+        graph(`query { records { id name byline summary image member { id name email }}}`)()
         .then(response => self.claim_records(response.records) )
     },
     
@@ -57,6 +59,15 @@ const Model = types.model({
         }`)({ name, byline, summary })
         .then(response => self.claim_record(response.addRecord.record))
     },
+
+    change_record: (id, changes) => {
+        graph(`mutation ($id: ID!, $name: String!, $byline: String!, $summary: String, $image: String) {
+            changeRecord (id: $id, name: $name, byline: $byline, summary: $summary, image: $image) {
+                record { id }
+            }
+        }`)({ ...changes, id })
+        .then(response => self.acquire_records())
+    },
     
     claim_record: (record) => self.records.push(record),
     claim_records: (records) => self.records = records,
@@ -65,6 +76,10 @@ const Model = types.model({
     drop_record: (id) => {
         graph(`mutation ($id: ID!) { dropRecord(id: $id) { id }}`)({ id })
         .then(response => response.dropRecord.id ? self.unclaim_record(response.dropRecord.id) : null)
+    },
+
+    focus_record: (record) => {
+        self.focused_record = record
     },
 
     set: (key, value) => { self[key] = value },

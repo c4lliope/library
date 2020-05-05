@@ -64,15 +64,15 @@ const ClickableText = (props) => {
 
 const Error = ({ children }) => <div>Error: {children}</div>
 const Loading = () => <div>Loading</div>
-const Record = ({ record, onDrop }) => (
-    <div>
+const Record = observer(({ record, onClick, onDrop }) => (
+    <div onClick={onClick}>
         {record.name}
         {model.me && record.member.id === model.me.id
-        ? ["(", <span onClick={onDrop}>X</span>, ")"]
+        ? <span onClick={onDrop}>(X)</span>
         : null
         }
     </div>
-)
+))
 
 const Session = observer(() => {
     // const { store, error, loading, data } = useQuery(store =>
@@ -110,7 +110,12 @@ const Home = observer(() => (
         { model.records.length > 0
         ? <Grid>
             {model.records.map(record => (
-                <Record key={record.name} record={record} onDrop={() => model.drop_record(record.id)} />
+                <Record
+                key={record.name}
+                record={record}
+                onClick={() => model.focus_record(record)}
+                onDrop={() => model.drop_record(record.id)}
+                />
             ))}
         </Grid>
         : <Loading />
@@ -132,13 +137,11 @@ var model = window.model = Model.create({})
 model.acquire_records()
 model.acquire_session()
   
-const Images = observer(() => {
+const Images = observer(({ image, onImage }) => {
 
     const handlePhoto = (photo) => {
-        model.set("photoString", photo)
-        model.set("photoWasTaken", true)
+        onImage(photo)
         model.set("cameraIsOpen", false)
-        console.log("photo taken.")
     }
 
     const handleExit = () => {
@@ -146,7 +149,7 @@ const Images = observer(() => {
     }
 
     const handleRetake = () => {
-        model.set("photoWasTaken", false)
+        onImage(null)
         model.set("cameraIsOpen", true)
     }
 
@@ -154,19 +157,15 @@ const Images = observer(() => {
 
     return (
         <div style={{width: "100%"}}>
-            {model.photoWasTaken
-            ?
-                <>
-                <img src={model.photoString}/>
+            {image
+            ?   <>
+                <img src={image}/>
                 <ClickableText className={classes.info} hideIcon onClick={handleRetake} text="re-take image" />
                 </>
-            :
-                <>
-                <ButtonBase style={{width:"90%",margin:"5%"}} onClick={() => model.set("cameraIsOpen", true)} >
+            :   <ButtonBase style={{width:"90%",margin:"5%"}} onClick={() => model.set("cameraIsOpen", true)} >
                     <CameraAltIcon />
                     Open camera.
                 </ButtonBase>
-                </>
             }
 
             {model.cameraIsOpen
@@ -177,12 +176,36 @@ const Images = observer(() => {
     )
 })
 
+const FocusedRecord = observer(() => (
+    model.focused_record &&
+    <div>
+        record focused: {model.focused_record.name}
+        <ProcessRecord
+            originalName={model.focused_record.name}
+            originalByline={model.focused_record.byline}
+            originalSummary={model.focused_record.summary}
+            buttonText="Change record"
+            onProcessRecord={({ name, byline, summary }) => {
+                model.change_record(model.focused_record.id, { name, byline, summary })
+                model.focusRecord(null)
+            }}
+            />
+        <Images
+          image={model.focused_record.image}
+          onImage={(image) => {
+              model.focused_record.change_image(image)
+              model.change_record(model.focused_record.id, { ...model.focused_record, image })
+          }}
+          />
+    </div>
+))
+
 render(
     <div>
         <div>👻</div>
         <Session/>
         <Home/>
-        <Images />
+        <FocusedRecord />
     </div>,
     document.querySelector('#base')
 );
