@@ -149,6 +149,8 @@ const Home = observer(() => (
 const Grid = styled.div`
 display: grid;
 grid-template-columns: 1fr 1fr 1fr;
+grid-column-gap: 1rem;
+grid-row-gap: 1rem;
 
 @media(max-width: 768px) {
     grid-template-columns: 1fr;
