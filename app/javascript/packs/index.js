@@ -97,18 +97,20 @@ const Session = observer(() => {
     // if(loading) return <Loading />
     if(!model.me) {
         return (
-            <form onSubmit={(e) => {
-                e.preventDefault()
-                model.sign_in({ email: input.current.value })
-                console.log(`${model.me ? model.me.email : "no one"} signed in.`)
-            }}>
-                <input ref={input} type="email" placeholder="your email" />
-                <input type="submit" value="Sign In" />
-            </form>
+            model.session_pending
+            ?  <div>Please check your email, or <a href="#" onClick={() => model.set("session_pending", false)}>sign in again</a>.</div>
+            :
+                <form onSubmit={(e) => {
+                    e.preventDefault()
+                    model.sign_in({ email: input.current.value })
+                    console.log(`${model.me ? model.me.email : "no one"} signed in.`)
+                }}>
+                    <input ref={input} type="email" placeholder="your email" />
+                    <input type="submit" value="Sign In" />
+                </form>
         )
     }
-    const { name } = model.me;
-    return <div>Signed in as {name}.</div>
+    return <div>Signed in as {model.me.name}.</div>
 })
 
 const Border = styled.div`
@@ -227,8 +229,8 @@ const FocusedRecord = observer(() => (
 
 render(
     <div>
-        <div>👻</div>
         <Session/>
+        <div>👻</div>
         <Home/>
         <FocusedRecord />
     </div>,

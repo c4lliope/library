@@ -2,17 +2,22 @@ module Mutations
   class SignIn < BaseMutation
     argument :email, String, required: true
 
-    field :token, String, null: true
+    field :code, String, null: true
     field :member, Types::MemberType, null: true
 
     def resolve(email:)
       member = Member.find_by!(email: email)
       return {} unless member
 
-      token = Base64.encode64(member.email)
+      session = Session.create(
+        member: member,
+        expires: 30.days.from_now,
+        code: SecureRandom.uuid,
+      )
+      SessionMailer.with(session: session).claim.deliver_later
 
       {
-        token: token,
+        code: session.code,
         member: member,
       }
     end

@@ -4,7 +4,7 @@ import graphql from "../graphql"
 const graph = graphql("/graphql", {
     headers: {
         "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
-        "Authorization": localStorage.getItem("token"),
+        "Authorization": localStorage.getItem("code"),
     },
 })
 
@@ -37,6 +37,7 @@ const Model = types.model({
     photoString: "",
     cameraIsOpen: false,
     addingRecord: false,
+    session_pending: false,
     
 }).actions(self => ({
     acquire_records: () => {
@@ -86,9 +87,8 @@ const Model = types.model({
     set: (key, value) => { self[key] = value },
     
     sign_in: ({ email }) => {
-        graph(`mutation ($email: String!) { signIn(email: $email) { token }}`)({ email: email })
-        .then((response) => localStorage.setItem("token", response.signIn.token))
-        self.acquire_session()
+        graph(`mutation ($email: String!) { signIn(email: $email) { code }}`)({ email: email })
+        .then((response) => self.set("session_pending", true))
     },
 
     unclaim_record: (id) => {
