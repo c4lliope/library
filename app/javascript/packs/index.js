@@ -105,7 +105,7 @@ const Session = observer(() => {
                     console.log(`${model.me ? model.me.email : "no one"} signed in.`)
                 }}>
                     <input ref={input} type="email" placeholder="your email" />
-                    <input type="submit" value="Sign In" />
+                    <input type="submit" value="Begin session" />
                 </form>
         )
     }
