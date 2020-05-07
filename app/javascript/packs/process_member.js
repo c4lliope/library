@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { observer } from "mobx-react"
 
-const ProcessMember = ({
+const ProcessMember = observer(({
   originalName = "",
   originalSurname = "",
   originalAddress = "",
@@ -48,6 +49,6 @@ const ProcessMember = ({
       )}
     </div>
   );
-};
+})
 
 export default ProcessMember;

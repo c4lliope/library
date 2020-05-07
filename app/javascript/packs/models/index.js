@@ -52,15 +52,15 @@ const Model = types.model({
         .then(response => self.claim_session(response.me))
     },
     
-    add_record: (name, byline, summary) => {
-        graph(`mutation ($name: String!, $summary: String, $byline: String!) {
-            addRecord(name: $name, summary: $summary, byline: $byline) {
+    add_record: (name, byline, summary, image) => {
+        graph(`mutation ($name: String!, $summary: String, $byline: String!, $image: String) {
+            addRecord(name: $name, summary: $summary, byline: $byline, image: $image) {
                 record {
-                    id name summary byline
+                    id name summary byline image
                     member { id name email }
                 }
             }
-        }`)({ name, byline, summary })
+        }`)({ name, byline, summary, image })
         .then(response => self.claim_record(response.addRecord.record))
     },
 

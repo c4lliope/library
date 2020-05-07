@@ -8,51 +8,11 @@ import { render } from 'react-dom'
 import { observer } from "mobx-react"
 import 'mobx-react-lite/batchingForReactDom'
 import styled from "styled-components"
-import { runInAction } from "mobx"
 import Modal from "react-modal"
 
 import Model from "./models"
 import ProcessRecord from "./process_record"
 import ProcessMember from "./process_member"
-import CameraAltIcon from '@material-ui/icons/CameraAlt';
-import SimpleButton from "./camera/simple_button"
-import { makeStyles } from '@material-ui/core/styles';
-import { ButtonBase } from '@material-ui/core';
-import Colors from './camera/colors';
-import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
-import Camera from "./camera"
-
-const useStyles = makeStyles({
-  text:{
-      color: Colors.buttonBlue,
-      background: "none",
-      textTransform: "capitalize",
-      fontSize: ".8em",
-      fontFamily: "Roboto, sans-serif"
-  },
-  icon:{
-      marginRight: ".25em"
-  },
-  big: {
-      fontSize: "1em"
-  }
-})
-
-const ClickableText = (props) => {
-    const classes = useStyles();
-
-    return(
-    !props.big ?
-    <ButtonBase className={`${classes.text} ${props.className}`} onClick={props.onClick}>
-        { !props.hideIcon && <ErrorOutlineIcon className={classes.icon} /> }
-        {props.text}
-    </ButtonBase>
-    :
-    <ButtonBase className={`${classes.text} ${classes.big} ${props.className}`} onClick={props.onClick}>
-        {props.text}
-    </ButtonBase>
-    )
-}
 
 // Uncomment to copy all static images under ../images to the output folder and reference
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
@@ -67,18 +27,13 @@ const Image = styled.img`
 width: 100%;
 `
 
-const Record = observer(({ record, onClick, onDrop }) => (
+const Record = observer(({ record, onClick }) => (
     <Border onClick={onClick}>
         {record.name}<br/>
         by {record.byline}
 
         {record.image
         ? <Image src={record.image} alt={`Image of ${record.name}`} />
-        : null
-        }
-
-        {model.me && record.member.id === model.me.id
-        ? <span onClick={onDrop}>(X)</span>
         : null
         }
     </Border>
@@ -162,14 +117,17 @@ const Home = observer(() => (
     <div>
         {model.addingRecord
         ?  <Border>
-            <ProcessRecord
-            buttonText="Add record"
-            onProcessRecord={({ name, byline, summary }) => model.add_record(name, byline, summary)}
-            />
-            <span onClick={() => model.set("addingRecord", false)} >Cancel</span>
+                <span onClick={() => model.set("addingRecord", false)} >Cancel</span>
+                <ProcessRecord
+                buttonText="Add record"
+                onProcessRecord={({ name, byline, summary, image }) => {
+                    model.set("addingRecord", false)
+                    model.add_record(name, byline, summary, image)
+                }}
+                />
            </Border>
         :  model.me &&
-            <a href="#" onClick={() => model.set("addingRecord", !model.addingRecord)} >Add a record</a>
+            <a href="#" onClick={() => model.set("addingRecord", true)} >Add a record</a>
         }
 
         { model.records.length > 0
@@ -179,7 +137,6 @@ const Home = observer(() => (
                 key={record.name}
                 record={record}
                 onClick={() => model.focus_record(record)}
-                onDrop={() => model.drop_record(record.id)}
                 />
             ))}
         </Grid>
@@ -203,45 +160,6 @@ var model = window.model = Model.create({})
 
 model.acquire_records()
 model.acquire_session()
-  
-const Images = observer(({ image, onImage }) => {
-
-    const handlePhoto = (photo) => {
-        onImage(photo)
-        model.set("cameraIsOpen", false)
-    }
-
-    const handleExit = () => {
-        model.set("cameraIsOpen", false)
-    }
-
-    const handleRetake = () => {
-        onImage(null)
-        model.set("cameraIsOpen", true)
-    }
-
-    const classes = useStyles();
-
-    return (
-        <div style={{width: "100%"}}>
-            {image
-            ?   <>
-                <Image src={image}/>
-                <ClickableText className={classes.info} hideIcon onClick={handleRetake} text="re-take image" />
-                </>
-            :   <ButtonBase style={{width:"90%",margin:"5%"}} onClick={() => model.set("cameraIsOpen", true)} >
-                    <CameraAltIcon />
-                    Open camera.
-                </ButtonBase>
-            }
-
-            {model.cameraIsOpen
-            ? <Camera handleExit={runInAction(() => handleExit)} returnPhoto={handlePhoto} />
-            : null
-            }
-        </div>
-    )
-})
 
 const FocusedRecord = observer(() => (
     model.focused_record &&
@@ -250,24 +168,27 @@ const FocusedRecord = observer(() => (
           onRequestClose={() => model.focus_record(null)}
           style={{ border: "4px solid grey" }}
         >
-            <a href='#' onClick={() => model.focus_record(null)}>close record.</a>
+            <a href='#' onClick={() => model.focus_record(null)}>close record.</a><br/>
+
+            {model.me && model.focused_record.member.id === model.me.id
+             ? <a
+                href='#'
+                onClick={() => { model.focus_record(null); model.drop_record(model.focused_record.id)}}
+                >drop record.</a>
+            : null
+            }
+
           <ProcessRecord
               originalName={model.focused_record.name}
               originalByline={model.focused_record.byline}
               originalSummary={model.focused_record.summary}
+              originalImage={model.focused_record.image}
               buttonText="Change record"
-              onProcessRecord={({ name, byline, summary }) => {
-                  model.change_record(model.focused_record.id, { name, byline, summary })
+              onProcessRecord={({ name, byline, summary, image }) => {
+                  model.change_record(model.focused_record.id, { name, byline, summary, image })
                   model.focus_record(null)
               }}
               />
-          <Images
-            image={model.focused_record.image}
-            onImage={(image) => {
-                model.focused_record.change_image(image)
-                model.change_record(model.focused_record.id, { ...model.focused_record, image })
-            }}
-            />
         </Modal>
 ))
 
