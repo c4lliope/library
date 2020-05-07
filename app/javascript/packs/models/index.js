@@ -77,13 +77,20 @@ const Model = types.model({
     change_record: (id, changes) => {
         graph(`mutation ($id: ID!, $name: String!, $byline: String!, $summary: String, $image: String) {
             changeRecord (id: $id, name: $name, byline: $byline, summary: $summary, image: $image) {
-                record { id }
+                record { id, name, byline, summary, image }
             }
         }`)({ ...changes, id })
-        .then(response => self.acquire_records())
+        .then(response => self.claim_record(response.changeRecord.record))
     },
     
-    claim_record: (record) => self.records.push(record),
+    claim_record: (record) => {
+        var index = self.records.indexOf(x => x.id === record.id)
+
+        if(index != -1)
+            self.records.splice(index, 1, record)
+        else
+            self.records.push(record)
+    },
     claim_records: (records) => self.records = records,
     claim_session: (me) => self.me = me,
     

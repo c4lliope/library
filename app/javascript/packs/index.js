@@ -9,6 +9,7 @@ import { observer } from "mobx-react"
 import 'mobx-react-lite/batchingForReactDom'
 import styled from "styled-components"
 import { runInAction } from "mobx"
+import Modal from "react-modal"
 
 import Model from "./models"
 import ProcessRecord from "./process_record"
@@ -20,7 +21,6 @@ import { ButtonBase } from '@material-ui/core';
 import Colors from './camera/colors';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import Camera from "./camera"
-import styledComponentsCjs from 'styled-components'
 
 const useStyles = makeStyles({
   text:{
@@ -222,7 +222,7 @@ const Images = observer(({ image, onImage }) => {
         <div style={{width: "100%"}}>
             {image
             ?   <>
-                <img src={image}/>
+                <Image src={image}/>
                 <ClickableText className={classes.info} hideIcon onClick={handleRetake} text="re-take image" />
                 </>
             :   <ButtonBase style={{width:"90%",margin:"5%"}} onClick={() => model.set("cameraIsOpen", true)} >
@@ -241,26 +241,29 @@ const Images = observer(({ image, onImage }) => {
 
 const FocusedRecord = observer(() => (
     model.focused_record &&
-    <div>
-        record focused: {model.focused_record.name}
-        <ProcessRecord
-            originalName={model.focused_record.name}
-            originalByline={model.focused_record.byline}
-            originalSummary={model.focused_record.summary}
-            buttonText="Change record"
-            onProcessRecord={({ name, byline, summary }) => {
-                model.change_record(model.focused_record.id, { name, byline, summary })
-                model.focusRecord(null)
+    <Modal
+          isOpen={model.focused_record}
+          onRequestClose={() => model.focus_record(null)}
+        >
+            <a href='#' onClick={() => model.focus_record(null)}>close record.</a>
+          <ProcessRecord
+              originalName={model.focused_record.name}
+              originalByline={model.focused_record.byline}
+              originalSummary={model.focused_record.summary}
+              buttonText="Change record"
+              onProcessRecord={({ name, byline, summary }) => {
+                  model.change_record(model.focused_record.id, { name, byline, summary })
+                  model.focus_record(null)
+              }}
+              />
+          <Images
+            image={model.focused_record.image}
+            onImage={(image) => {
+                model.focused_record.change_image(image)
+                model.change_record(model.focused_record.id, { ...model.focused_record, image })
             }}
             />
-        <Images
-          image={model.focused_record.image}
-          onImage={(image) => {
-              model.focused_record.change_image(image)
-              model.change_record(model.focused_record.id, { ...model.focused_record, image })
-          }}
-          />
-    </div>
+        </Modal>
 ))
 
 const Header = styled.div`
@@ -279,6 +282,8 @@ padding: 2rem;
 const Heading = styled.div`
 font-size: 2.4rem;
 `
+
+Modal.setAppElement('#base')
 
 render(
     <div>

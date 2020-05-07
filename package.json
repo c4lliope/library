@@ -23,6 +23,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-modal": "^3.11.2",
     "styled-components": "^5.1.0",
     "typescript": "^3.8.3"
   },
