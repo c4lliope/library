@@ -10,6 +10,7 @@ ruby "2.7.0"
 
 gem "autoprefixer-rails"
 gem "bootsnap", require: false
+gem 'graphiql-rails'
 gem "graphql", "~> 1.10"
 gem "honeybadger"
 gem "pg"
@@ -25,7 +26,6 @@ gem "tzinfo-data", platforms: [:mingw, :x64_mingw, :mswin, :jruby]
 gem "webpacker"
 
 group :development do
-  gem 'graphiql-rails'
   gem "listen"
   gem "rack-mini-profiler", require: false
   gem "spring"
