@@ -10,8 +10,8 @@ const ProcessMember = ({
   loading,
 }) => {
   const [name, upgradeName] = useState(originalName);
-  const [surname, upgradeSurname] = useState(originalName);
-  const [address, upgradeAddress] = useState(originalName);
+  const [surname, upgradeSurname] = useState(originalSurname);
+  const [address, upgradeAddress] = useState(originalAddress);
 
   return (
     <div>

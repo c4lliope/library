@@ -119,7 +119,11 @@ const Session = observer(() => {
 const AddName = observer(() => (
     model.addingName
     ?
-        <Border>
+    <Modal
+          isOpen={model.addingName}
+          onRequestClose={() => model.focus_record(null)}
+          style={{ border: "4px solid grey" }}
+        >
             Add your name and address, or &nbsp;
             <a href="#" onClick={() => model.set("addingName", false)}>cancel.</a>
 
@@ -138,7 +142,7 @@ const AddName = observer(() => (
                     model.set("addingName", false)
                 }}
                 />
-        </Border>
+        </Modal>
     : model.me ?
         (model.me.name === null || model.me.surname === null || model.me.address === null)
         ? <div>
@@ -244,6 +248,7 @@ const FocusedRecord = observer(() => (
     <Modal
           isOpen={model.focused_record}
           onRequestClose={() => model.focus_record(null)}
+          style={{ border: "4px solid grey" }}
         >
             <a href='#' onClick={() => model.focus_record(null)}>close record.</a>
           <ProcessRecord
@@ -277,6 +282,7 @@ grid-template-columns: auto 1fr;
 
 const Spacing = styled.div`
 padding: 2rem;
+background-color: #fdfac7;
 `
 
 const Heading = styled.div`
