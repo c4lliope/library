@@ -10,8 +10,9 @@ const graph = graphql("/graphql", {
 
 const Member = types.model({
     id: types.identifier,
-    name: types.string,
+    name: types.maybeNull(types.string),
     surname: types.maybeNull(types.string),
+    address: types.maybeNull(types.string),
     email: types.string,
 })
 
@@ -36,6 +37,7 @@ const Model = types.model({
     
     photoString: "",
     cameraIsOpen: false,
+    addingName: false,
     addingRecord: false,
     session_pending: false,
     
@@ -46,7 +48,7 @@ const Model = types.model({
     },
     
     acquire_session: () => {
-        graph(`query { me { id name email }}`)()
+        graph(`query { me { id name surname email address }}`)()
         .then(response => self.claim_session(response.me))
     },
     
@@ -60,6 +62,16 @@ const Model = types.model({
             }
         }`)({ name, byline, summary })
         .then(response => self.claim_record(response.addRecord.record))
+    },
+
+    change_me: (changes) => {
+        console.log("changing")
+        graph(`mutation ($name: String!, $surname: String!, $address: String!) {
+            changeMe (name: $name, surname: $surname, address: $address) {
+                me { id name surname email address }
+            }
+        }`)(changes)
+        .then(response => self.claim_session(response.changeMe.me))
     },
 
     change_record: (id, changes) => {
@@ -88,7 +100,11 @@ const Model = types.model({
     
     sign_in: ({ email }) => {
         graph(`mutation ($email: String!) { signIn(email: $email) { code }}`)({ email: email })
-        .then((response) => self.set("session_pending", true))
+        .then((response) => {
+            response.signIn.code
+            ? self.set("session_pending", true)
+            : null
+        })
     },
 
     unclaim_record: (id) => {

@@ -12,6 +12,7 @@ import { runInAction } from "mobx"
 
 import Model from "./models"
 import ProcessRecord from "./process_record"
+import ProcessMember from "./process_member"
 import CameraAltIcon from '@material-ui/icons/CameraAlt';
 import SimpleButton from "./camera/simple_button"
 import { makeStyles } from '@material-ui/core/styles';
@@ -38,9 +39,7 @@ const useStyles = makeStyles({
 })
 
 const ClickableText = (props) => {
-
     const classes = useStyles();
-
 
     return(
     !props.big ?
@@ -110,8 +109,45 @@ const Session = observer(() => {
                 </form>
         )
     }
-    return <div>Signed in as {model.me.name}.</div>
+    return (
+        <div>
+            Signed in as {model.me.name || model.me.email}.
+        </div>
+    )
 })
+
+const AddName = observer(() => (
+    model.addingName
+    ?
+        <Border>
+            Add your name and address, or &nbsp;
+            <a href="#" onClick={() => model.set("addingName", false)}>cancel.</a>
+
+            <p>
+                By adding your name and address, you agree:<br/>
+                your name and address may be shared among your peers.
+            </p>
+
+            <ProcessMember
+                originalName={model.me.name}
+                originalSurname={model.me.surname}
+                originalAddress={model.me.address}
+                buttonText="Record name and address"
+                onProcess={({ name, surname, address }) => {
+                    model.change_me({ name, surname, address })
+                    model.set("addingName", false)
+                }}
+                />
+        </Border>
+    : model.me ?
+        (model.me.name === null || model.me.surname === null || model.me.address === null)
+        ? <div>
+            Nearly done -
+            <a href="#" onClick={() => model.set("addingName", true)}>Add your name and address.</a>
+            </div>
+        : <a href="#" onClick={() => model.set("addingName", true)}>change name or address.</a>
+      : null
+))
 
 const Border = styled.div`
 border: 1px solid grey;
@@ -128,8 +164,8 @@ const Home = observer(() => (
             />
             <span onClick={() => model.set("addingRecord", false)} >Cancel</span>
            </Border>
-        :
-            <span onClick={() => model.set("addingRecord", true)} >Add record</span>
+        :  model.me &&
+            <a href="#" onClick={() => model.set("addingRecord", !model.addingRecord)} >Add a record</a>
         }
 
         { model.records.length > 0
@@ -227,12 +263,38 @@ const FocusedRecord = observer(() => (
     </div>
 ))
 
+const Header = styled.div`
+background-color: #b492c4;
+color: #fdfac7;
+padding: 1rem;
+text-align: right;
+display: grid;
+grid-template-columns: auto 1fr;
+`
+
+const Spacing = styled.div`
+padding: 2rem;
+`
+
+const Heading = styled.div`
+font-size: 2.4rem;
+`
+
 render(
     <div>
-        <Session/>
-        <div>👻</div>
-        <Home/>
-        <FocusedRecord />
+        <Header>
+            <Heading>Shared Library</Heading>
+            
+            <div>
+                <Session/>
+                <AddName/>
+            </div>
+        </Header>
+
+        <Spacing>
+            <Home/>
+            <FocusedRecord />
+        </Spacing>
     </div>,
     document.querySelector('#base')
 );

@@ -6,7 +6,8 @@ module Mutations
     field :member, Types::MemberType, null: true
 
     def resolve(email:)
-      member = Member.find_by!(email: email)
+      member = Member.find_by(email: email)
+      member ||= Member.create(email: email)
       return {} unless member
 
       session = Session.create(
