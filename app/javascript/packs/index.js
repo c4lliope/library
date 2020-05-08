@@ -8,7 +8,7 @@ import { render } from 'react-dom'
 import { observer } from "mobx-react"
 import 'mobx-react-lite/batchingForReactDom'
 import styled from "styled-components"
-import Modal from "react-modal"
+import BaseModal, { ModalProvider } from 'styled-react-modal'
 
 import Model from "./models"
 import ProcessRecord from "./process_record"
@@ -71,13 +71,17 @@ const Session = observer(() => {
     )
 })
 
+{/* <DialogDisclosure {...dialog}>{open}</DialogDisclosure>
+<DialogBackdrop {...dialog}>
+  <Dialog {...dialog} aria-label="Welcome">
+    Welcome to Reakit!
+  </Dialog>
+</DialogBackdrop> */}
 const AddName = observer(() => (
     model.addingName
     ?
-    <Modal
-          isOpen={model.addingName}
-          onRequestClose={() => model.focus_record(null)}
-          style={{ border: "4px solid grey" }}
+        <Modal
+        isOpen={model.addingName}
         >
             Add your name and address, or &nbsp;
             <a href="#" onClick={() => model.set("addingName", false)}>cancel.</a>
@@ -98,7 +102,7 @@ const AddName = observer(() => (
                 }}
                 />
         </Modal>
-    : model.me ?
+        : model.me ?
         (model.me.name === null || model.me.surname === null || model.me.address === null)
         ? <div>
             Nearly done -
@@ -161,19 +165,24 @@ var model = window.model = Model.create({})
 model.acquire_records()
 model.acquire_session()
 
+const Modal = BaseModal.styled`
+background-color: lightgrey;
+padding: 1rem;
+max-height: 60vh;
+max-width: 40vw;
+`
+
 const FocusedRecord = observer(() => (
     model.focused_record &&
     <Modal
           isOpen={model.focused_record}
-          onRequestClose={() => model.focus_record(null)}
-          style={{ border: "4px solid grey" }}
         >
             <a href='#' onClick={() => model.focus_record(null)}>close record.</a><br/>
 
             {model.me && model.focused_record.member.id === model.me.id
              ? <a
                 href='#'
-                onClick={() => { model.focus_record(null); model.drop_record(model.focused_record.id)}}
+                onClick={() => { var id = model.focused_record.id; model.focus_record(null); model.drop_record(id)}}
                 >drop record.</a>
             : null
             }
@@ -210,12 +219,12 @@ const Heading = styled.div`
 font-size: 2.4rem;
 `
 
-Modal.setAppElement('#base')
-
 render(
+    <ModalProvider>
+
     <div>
         <Header>
-            <Heading>Shared Library</Heading>
+            <Heading>our shared library</Heading>
             
             <div>
                 <Session/>
@@ -227,6 +236,7 @@ render(
             <Home/>
             <FocusedRecord />
         </Spacing>
-    </div>,
+    </div>
+    </ModalProvider>,
     document.querySelector('#base')
 );
