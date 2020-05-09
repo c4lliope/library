@@ -27,10 +27,18 @@ const Header = styled.div`
 background-color: #950cd6;
 color: #fdfac7;
 padding: 1rem;
+position: fixed;
+top: 0;
+left: 0;
+right: 0;
 `
 
 const Spacing = styled.div`
 padding: ${p => p.space || "1rem"};
+${p => p.overhang
+? `margin-top: ${p.overhang};`
+: null
+}
 `
 
 const Heading = styled.div`
@@ -63,7 +71,7 @@ render(
                 <Heading>our shared library。</Heading>
             </Header>
 
-            <Spacing space="2rem">
+            <Spacing space="2rem" overhang="4em" >
                 <Session/>
 
                 <Spacing><AddName/></Spacing>

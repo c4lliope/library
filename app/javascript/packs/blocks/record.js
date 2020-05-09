@@ -9,10 +9,12 @@ const Record = observer(({ record, onClick }) => (
         {record.name}<br/>
         by {record.byline}
 
-        {record.image
-        ? <Image src={record.image} alt={`Image of ${record.name}`} />
-        : null
-        }
+        <Image src={
+            record.image_url ||
+            `http://jpg.cool/${record.name.replace(" ", ".")}.by.${record.byline.replace(" ", ".")}`
+            }
+            alt={`Image of ${record.name}`}
+        />
     </Border>
 ))
 
