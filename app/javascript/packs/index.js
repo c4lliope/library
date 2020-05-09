@@ -31,6 +31,8 @@ position: fixed;
 top: 0;
 left: 0;
 right: 0;
+box-shadow: 0px 6px 6px 0px #b16893;
+font-family: 'Alfa Slab One', sans-serif;
 `
 
 const Spacing = styled.div`
@@ -74,8 +76,10 @@ render(
             <Spacing space="2rem" overhang="4em" >
                 <Session/>
 
-                <Spacing><AddName/></Spacing>
-                <Spacing><AddRecord/></Spacing>
+                <Spacing>
+                    <AddName/><br/>
+                    <AddRecord/><br/>
+                </Spacing>
 
                 <Home/>
                 <FocusedRecord />
