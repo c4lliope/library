@@ -25,7 +25,7 @@ model.acquire_session()
 
 const Header = styled.div`
 background-color: #950cd6;
-color: #fdfac7;
+color: #fbeed1;
 padding: 1rem;
 position: fixed;
 top: 0;
