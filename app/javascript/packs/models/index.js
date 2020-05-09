@@ -21,8 +21,7 @@ const Record = types.model({
     name: types.string,
     byline: types.maybeNull(types.string),
     summary: types.maybeNull(types.string),
-    language: "English (assumed)",
-    image: types.maybeNull(types.string),
+    language: "English",
     member: Member,
 }).actions(self => ({
     change_image: (image) => { self.image = image },
