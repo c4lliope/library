@@ -7,7 +7,8 @@ import ProcessRecord from "./process_record"
 const FocusedRecord = observer(() => (
     model.focused_record &&
     <Modal
-          isOpen={model.focused_record}
+          isOpen
+          onBackgroundClick={() => model.focus_record(null)}
         >
             <a href='#' onClick={() => model.focus_record(null)}>close record.</a><br/>
 

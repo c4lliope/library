@@ -7,7 +7,7 @@ import ProcessMember from "./process_member"
 const AddName = observer(() => (
     model.addingName
     ?
-        <Modal isOpen>
+        <Modal isOpen onBackgroundClick={() => model.set("addingName", false)}>
             Add your name and address, or &nbsp;
             <a href="#" onClick={() => model.set("addingName", false)}>cancel.</a>
 

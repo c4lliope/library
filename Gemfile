@@ -14,6 +14,7 @@ gem 'graphiql-rails'
 gem "graphql", "~> 1.10"
 gem "honeybadger"
 gem "pg"
+gem "pg_search"
 gem "puma"
 gem "rack-canonical-host"
 gem "rails", "~> 6.0.0"

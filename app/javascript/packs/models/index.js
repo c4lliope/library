@@ -23,9 +23,7 @@ const Record = types.model({
     summary: types.maybeNull(types.string),
     language: "English",
     member: Member,
-}).actions(self => ({
-    change_image: (image) => { self.image = image },
-}))
+})
 
 const Model = types.model({
     records: types.array(Record),
@@ -39,10 +37,12 @@ const Model = types.model({
     addingName: false,
     addingRecord: false,
     session_pending: false,
+
+    search: "",
     
 }).actions(self => ({
     acquire_records: () => {
-        graph(`query { records { id name byline summary image member { id name email }}}`)()
+        graph(`query { records { id name byline summary member { id name email }}}`)()
         .then(response => self.claim_records(response.records) )
     },
     
@@ -51,15 +51,15 @@ const Model = types.model({
         .then(response => self.claim_session(response.me))
     },
     
-    add_record: (name, byline, summary, image) => {
-        graph(`mutation ($name: String!, $summary: String, $byline: String!, $image: String) {
-            addRecord(name: $name, summary: $summary, byline: $byline, image: $image) {
+    add_record: (name, byline, summary) => {
+        graph(`mutation ($name: String!, $summary: String, $byline: String!) {
+            addRecord(name: $name, summary: $summary, byline: $byline) {
                 record {
-                    id name summary byline image
+                    id name summary byline
                     member { id name email }
                 }
             }
-        }`)({ name, byline, summary, image })
+        }`)({ name, byline, summary })
         .then(response => self.claim_record(response.addRecord.record))
     },
 
@@ -74,9 +74,9 @@ const Model = types.model({
     },
 
     change_record: (id, changes) => {
-        graph(`mutation ($id: ID!, $name: String!, $byline: String!, $summary: String, $image: String) {
-            changeRecord (id: $id, name: $name, byline: $byline, summary: $summary, image: $image) {
-                record { id, name, byline, summary, image }
+        graph(`mutation ($id: ID!, $name: String!, $byline: String!, $summary: String) {
+            changeRecord (id: $id, name: $name, byline: $byline, summary: $summary {
+                record { id, name, byline, summary }
             }
         }`)({ ...changes, id })
         .then(response => self.claim_record(response.changeRecord.record))
@@ -100,6 +100,12 @@ const Model = types.model({
 
     focus_record: (record) => {
         self.focused_record = record
+    },
+
+    run_search: () => {
+        graph(`query ($search: String) { records(search: $search) { id name byline summary member { id name email }}}`)
+        ({ search: self.search })
+        .then(response => self.claim_records(response.records) )
     },
 
     set: (key, value) => { self[key] = value },

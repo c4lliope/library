@@ -15,6 +15,7 @@ import AddRecord from "./blocks/add_record"
 import FocusedRecord from "./blocks/focused_record"
 import Home from "./blocks/home"
 import Session from "./blocks/session"
+import Search from "./blocks/search"
 
 import Model from "./models"
 
@@ -25,6 +26,7 @@ model.acquire_session()
 
 const Header = styled.div`
 background-color: #950cd6;
+text-align: right;
 color: #fbeed1;
 padding: 1rem;
 position: fixed;
@@ -32,7 +34,7 @@ top: 0;
 left: 0;
 right: 0;
 box-shadow: 0px 6px 6px 0px #b16893;
-font-family: 'Alfa Slab One', sans-serif;
+font-family: 'Carter One', sans-serif;
 `
 
 const Spacing = styled.div`
@@ -66,20 +68,34 @@ input {
 }
 `
 
+const Bar = styled(Spacing)`
+  display: flex;
+  left: 0;
+  right: 0;
+  justify-content: space-between;
+`
+
+const AlignEnd = styled.div`
+text-align: end;
+`
+
 render(
     <ModalProvider>
         <Page>
             <Header>
-                <Heading>our shared library。</Heading>
+                <Heading>...our shared library。</Heading>
             </Header>
 
             <Spacing space="2rem" overhang="4em" >
-                <Session/>
+                <Bar>
+                    <Search/>
+                    <AddRecord/>
 
-                <Spacing>
-                    <AddName/><br/>
-                    <AddRecord/><br/>
-                </Spacing>
+                    <AlignEnd>
+                        <Session/>
+                        <AddName/>
+                    </AlignEnd>
+                </Bar>
 
                 <Home/>
                 <FocusedRecord />

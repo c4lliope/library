@@ -5,7 +5,6 @@ module Types
     field :summary, String, null: true
     field :language, String, null: true
     field :byline, String, null: false
-    field :image, String, null: true
     field :member, Types::MemberType, null: false
   end
 end

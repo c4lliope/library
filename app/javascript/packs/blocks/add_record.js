@@ -4,10 +4,11 @@ import { observer } from "mobx-react"
 
 import Border from "./border"
 import ProcessRecord from "./process_record"
+import Modal from "./modal"
 
 const AddRecord = observer(() => (
     model.addingRecord
-    ?  <Border>
+    ?  <Modal isOpen onBackgroundClick={() => model.set("addingRecord", false)}>
             <span onClick={() => model.set("addingRecord", false)} >Cancel</span>
             <ProcessRecord
             buttonText="Add record"
@@ -16,7 +17,7 @@ const AddRecord = observer(() => (
                 model.add_record(name, byline, summary, image)
             }}
             />
-        </Border>
+        </Modal>
     :  model.me &&
         <a href="#" onClick={() => model.set("addingRecord", true)} >Add a record</a>
 ))
