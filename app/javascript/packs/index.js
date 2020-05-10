@@ -40,7 +40,7 @@ font-family: 'Carter One', sans-serif;
 const Spacing = styled.div`
 padding: ${p => p.space || "1rem"};
 ${p => p.overhang
-? `margin-top: ${p.overhang};`
+? `padding-top: ${p.overhang};`
 : null
 }
 `
@@ -53,7 +53,6 @@ font-size: 2em;
 `
 
 const Page = styled.div`
-font-size: 36px;
 background-color: #efd2d2;
 
 input {
@@ -63,6 +62,7 @@ input {
     border: 1px solid grey;
 }
 
+font-size: 36px;
 @media(min-width: 1000px) {
     font-size: 16px;
 }
@@ -86,7 +86,7 @@ render(
                 <Heading>...our shared library。</Heading>
             </Header>
 
-            <Spacing space="2rem" overhang="4em" >
+            <Spacing space="2rem" overhang="6em" >
                 <Bar>
                     <Search/>
                     <AddRecord/>

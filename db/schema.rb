@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_09_234804) do
+ActiveRecord::Schema.define(version: 2020_05_10_133328) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "bookings", force: :cascade do |t|
+  create_table "holds", force: :cascade do |t|
     t.bigint "member_id", null: false
     t.bigint "record_id", null: false
     t.datetime "begins_on"
@@ -23,8 +23,8 @@ ActiveRecord::Schema.define(version: 2020_05_09_234804) do
     t.datetime "expires_on"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["member_id"], name: "index_bookings_on_member_id"
-    t.index ["record_id"], name: "index_bookings_on_record_id"
+    t.index ["member_id"], name: "index_holds_on_member_id"
+    t.index ["record_id"], name: "index_holds_on_record_id"
   end
 
   create_table "members", force: :cascade do |t|
@@ -58,8 +58,8 @@ ActiveRecord::Schema.define(version: 2020_05_09_234804) do
     t.index ["member_id"], name: "index_sessions_on_member_id"
   end
 
-  add_foreign_key "bookings", "members"
-  add_foreign_key "bookings", "records"
+  add_foreign_key "holds", "members"
+  add_foreign_key "holds", "records"
   add_foreign_key "records", "members"
   add_foreign_key "sessions", "members"
 end

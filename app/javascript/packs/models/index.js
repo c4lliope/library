@@ -25,6 +25,14 @@ const Record = types.model({
     member: Member,
 })
 
+const Hold = types.model({
+    id: types.identifier,
+    member: Member,
+    record: types.reference(Record),
+    begins_on: types.Date,
+    expires_on: types.Date,
+})
+
 const Model = types.model({
     records: types.array(Record),
     members: types.array(Member),
@@ -90,6 +98,7 @@ const Model = types.model({
         else
             self.records.push(record)
     },
+
     claim_records: (records) => self.records = records,
     claim_session: (me) => self.me = me,
     
@@ -98,8 +107,22 @@ const Model = types.model({
         .then(response => response.dropRecord.id ? self.unclaim_record(response.dropRecord.id) : null)
     },
 
+    hold_dialogue: (hold) => {
+
+    },
+
     focus_record: (record) => {
         self.focused_record = record
+    },
+
+    flag: (record) => {
+
+    },
+
+    place_hold: (record) => {
+        graph(`mutation ($recordId: ID!) { placeHold(recordId: $recordId) { hold { beginsOn expiresOn } } }`)
+        ({ recordId: record.id })
+        .then(response => self.hold_dialogue(response.placeHold.hold))
     },
 
     run_search: () => {

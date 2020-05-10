@@ -1,8 +1,14 @@
 import React from "react"
 import { observer } from "mobx-react"
+import styled from "styled-components"
 
 import Modal from "./modal"
 import ProcessRecord from "./process_record"
+
+const Links = styled.div`
+display: flex;
+flex-direction: column;
+`
 
 const FocusedRecord = observer(() => (
     model.focused_record &&
@@ -31,6 +37,11 @@ const FocusedRecord = observer(() => (
                   model.focus_record(null)
               }}
               />
+
+            <Links>
+                <a href="#" onClick={() => model.place_hold(model.focused_record)} >place hold</a>
+                <a href="#" onClick={() => model.flag(model.focused_record)} >flag</a>
+            </Links>
         </Modal>
 ))
 
