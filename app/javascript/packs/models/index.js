@@ -23,7 +23,18 @@ const Record = types.model({
     summary: types.maybeNull(types.string),
     language: "English",
     member: Member,
-})
+}).actions(self => ({
+    set: (key, value) => { self[key] = value },
+
+    change: (key, value) => {
+        graph(`mutation ($id: ID!, $${key}: String!) {
+            changeRecord (id: $id, ${key}: $${key}) {
+                record { ${key} }
+            }
+        }`)({ [key]: value, id: self.id })
+        .then(response => self.set(key, response.changeRecord.record[key]))
+    },
+}))
 
 const Hold = types.model({
     id: types.identifier,
@@ -72,7 +83,6 @@ const Model = types.model({
     },
 
     change_me: (changes) => {
-        console.log("changing")
         graph(`mutation ($name: String!, $surname: String!, $address: String!) {
             changeMe (name: $name, surname: $surname, address: $address) {
                 me { id name surname email address }

@@ -1,9 +1,10 @@
-import React from "react"
+import React, { useState } from "react"
 import { observer } from "mobx-react"
+import { getSnapshot } from "mobx-state-tree"
 import styled from "styled-components"
 
 import Modal from "./modal"
-import ProcessRecord from "./process_record"
+import ChangeableField from "./changeable_field"
 
 const Links = styled.div`
 display: flex;
@@ -26,17 +27,21 @@ const FocusedRecord = observer(() => (
             : null
             }
 
-          <ProcessRecord
-              originalName={model.focused_record.name}
-              originalByline={model.focused_record.byline}
-              originalSummary={model.focused_record.summary}
-              originalImage={model.focused_record.image}
-              buttonText="Change record"
-              onProcessRecord={({ name, byline, summary, image }) => {
-                  model.change_record(model.focused_record.id, { name, byline, summary, image })
-                  model.focus_record(null)
-              }}
-              />
+            <ChangeableField
+            model={model.focused_record}
+            attribute="name"
+            />
+
+            <ChangeableField
+            model={model.focused_record}
+            attribute="byline"
+            />
+
+            <ChangeableField
+            model={model.focused_record}
+            attribute="summary"
+            as="textarea"
+            />
 
             <Links>
                 <a href="#" onClick={() => model.place_hold(model.focused_record)} >place hold</a>
