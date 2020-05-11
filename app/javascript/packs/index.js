@@ -18,11 +18,12 @@ import Session from "./blocks/session"
 import Search from "./blocks/search"
 
 import Model from "./models"
+import { acquire_records, acquire_session } from "./graph"
 
 var model = window.model = Model.create({})
 
-model.acquire_records()
-model.acquire_session()
+acquire_records()
+acquire_session()
 
 const Header = styled.div`
 background-color: #950cd6;

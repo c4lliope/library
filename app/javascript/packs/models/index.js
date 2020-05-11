@@ -1,12 +1,5 @@
 import { types } from "mobx-state-tree"
-import graphql from "../graphql"
-
-const graph = graphql("/graphql", {
-    headers: {
-        "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
-        "Authorization": localStorage.getItem("code"),
-    },
-})
+import graph from "../graph"
 
 const Member = types.model({
     id: types.identifier,
@@ -60,16 +53,6 @@ const Model = types.model({
     search: "",
     
 }).actions(self => ({
-    acquire_records: () => {
-        graph(`query { records { id name byline summary member { id name email }}}`)()
-        .then(response => self.claim_records(response.records) )
-    },
-    
-    acquire_session: () => {
-        graph(`query { me { id name surname email address }}`)()
-        .then(response => self.claim_session(response.me))
-    },
-    
     add_record: (name, byline, summary) => {
         graph(`mutation ($name: String!, $summary: String, $byline: String!) {
             addRecord(name: $name, summary: $summary, byline: $byline) {
