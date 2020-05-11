@@ -8,6 +8,8 @@ max-height: 60vh;
 max-width: 40vw;
 border: 4px solid darkgrey;
 border-radius: 8px;
+
+font-family: 'DM Mono', monospace;
 `
 
 export default (props) => <Modal {...props} allowScroll />

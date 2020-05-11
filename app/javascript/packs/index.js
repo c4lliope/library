@@ -56,6 +56,8 @@ font-size: 2em;
 const Page = styled.div`
 background-color: #efd2d2;
 
+font-family: 'DM Mono', monospace;
+
 input {
     font-size: 1.6em;
     clear: both;

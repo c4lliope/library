@@ -6,6 +6,9 @@ import BaseBorder from "./border"
 
 const Border = styled(BaseBorder)`
 background-color: #fbeed1;
+
+border: 4px solid darkgrey;
+border-radius: 8px;
 `
 
 const Headline = styled.div`
