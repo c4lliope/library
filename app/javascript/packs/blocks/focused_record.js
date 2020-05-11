@@ -22,10 +22,12 @@ const FocusedRecord = observer(() => (
           onBackgroundClick={() => model.focus_record(null)}
         >
             {model.me && model.focused_record.member.id === model.me.id
-             ? <a
+            ? <div>
+                <a
                 href='#'
                 onClick={() => model.drop_record(model.focused_record.id)}
                 >drop record.</a>
+              </div>
             : null
             }
 

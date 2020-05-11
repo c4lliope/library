@@ -11,7 +11,7 @@ const Member = types.model({
 
 const Record = types.model({
     id: types.identifier,
-    name: types.string,
+    name: types.maybeNull(types.string),
     byline: types.maybeNull(types.string),
     summary: types.maybeNull(types.string),
     language: "English",
@@ -47,22 +47,25 @@ const Model = types.model({
     photoString: "",
     cameraIsOpen: false,
     addingName: false,
-    addingRecord: false,
     session_pending: false,
 
     search: "",
     
 }).actions(self => ({
     add_record: (name, byline, summary) => {
-        graph(`mutation ($name: String!, $summary: String, $byline: String!) {
-            addRecord(name: $name, summary: $summary, byline: $byline) {
+        graph(`mutation {
+            addRecord {
                 record {
-                    id name summary byline
+                    id name byline summary
                     member { id name email }
                 }
             }
-        }`)({ name, byline, summary })
-        .then(response => self.claim_record(response.addRecord.record))
+        }`)()
+        .then(response => {
+            const record = Record.create(response.addRecord.record)
+            self.claim_record(record)
+            self.focus_record(record)
+        })
     },
 
     change_me: (changes) => {
