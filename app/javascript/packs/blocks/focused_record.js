@@ -4,11 +4,15 @@ import { getSnapshot } from "mobx-state-tree"
 import styled from "styled-components"
 
 import Modal from "./modal"
-import ChangeableField from "./changeable_field"
+import Field from "./field"
 
 const Links = styled.div`
 display: flex;
 flex-direction: column;
+`
+
+const Label = styled.span`
+color: grey;
 `
 
 const FocusedRecord = observer(() => (
@@ -17,27 +21,28 @@ const FocusedRecord = observer(() => (
           isOpen
           onBackgroundClick={() => model.focus_record(null)}
         >
-            <a href='#' onClick={() => model.focus_record(null)}>close record.</a><br/>
-
             {model.me && model.focused_record.member.id === model.me.id
              ? <a
                 href='#'
-                onClick={() => { var id = model.focused_record.id; model.focus_record(null); model.drop_record(id)}}
+                onClick={() => model.drop_record(model.focused_record.id)}
                 >drop record.</a>
             : null
             }
 
-            <ChangeableField
+            <Label>Name:</Label>
+            <Field
             model={model.focused_record}
             attribute="name"
             />
 
-            <ChangeableField
+            <Label>By:</Label>
+            <Field
             model={model.focused_record}
             attribute="byline"
             />
 
-            <ChangeableField
+            <Label>Summary:</Label>
+            <Field
             model={model.focused_record}
             attribute="summary"
             as="textarea"

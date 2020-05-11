@@ -96,6 +96,9 @@ const Model = types.model({
     claim_session: (me) => self.me = me,
     
     drop_record: (id) => {
+        if(self.focused_record.id === id)
+            self.focus_record(null)
+
         graph(`mutation ($id: ID!) { dropRecord(id: $id) { id }}`)({ id })
         .then(response => response.dropRecord.id ? self.unclaim_record(response.dropRecord.id) : null)
     },

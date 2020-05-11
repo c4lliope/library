@@ -3,23 +3,27 @@ import { observer } from "mobx-react"
 import { getSnapshot } from "mobx-state-tree"
 import styled from "styled-components"
 
-const Field = styled.input`
+const BasicField = styled.input`
+padding: 0.5rem;
+${p => p.as === "textarea"
+? "width: 30rem; height: 6rem;"
+: null
+}
+`
+
+const Spacing = styled.div`
 padding: 0.5rem;
 `
 
-const UnchangingField = styled.div`
-padding: 0.5rem;
-`
-
-const ChangeableField = observer(({ as, model, attribute }) => {
+const Field = observer(({ as, model, attribute }) => {
     const [editing, changeEditing] = useState(false)
     const [originalValue, changeOriginalValue] = useState({})
 
     return (
         editing
         ?
-            <div>
-                <Field
+            <Spacing>
+                <BasicField
                 as={as || "input"}
                 placeholder={attribute}
                 value={model[attribute]}
@@ -28,12 +32,12 @@ const ChangeableField = observer(({ as, model, attribute }) => {
                 <a href="#" onClick={() => {model.change(attribute, model[attribute]); changeEditing(false) }}>save</a>
                 &nbsp;or&nbsp;
                 <a href="#" onClick={() => {model.set(attribute, originalValue); changeEditing(false) }}>cancel</a>
-            </div>
+            </Spacing>
         :
-            <UnchangingField onClick={() => { changeOriginalValue(getSnapshot(model)[attribute]); changeEditing(true) }}>
+            <Spacing onClick={() => { changeOriginalValue(getSnapshot(model)[attribute]); changeEditing(true) }}>
                 {model[attribute]}
-            </UnchangingField>
+            </Spacing>
     )
 })
 
-export default ChangeableField
+export default Field
