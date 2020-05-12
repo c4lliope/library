@@ -1,6 +1,4 @@
 Rails.application.configure do
-  config.hosts << "73e40f27.ngrok.io"
-  
   config.cache_classes = false
   config.eager_load = false
   config.consider_all_requests_local = true

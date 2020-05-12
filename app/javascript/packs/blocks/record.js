@@ -1,6 +1,7 @@
 import React from "react"
 import { observer } from "mobx-react"
 import styled from "styled-components"
+import md5 from "js-md5"
 
 import BaseBorder from "./border"
 
@@ -12,7 +13,10 @@ border-radius: 8px;
 `
 
 const Headline = styled.div`
-margin-bottom: 1em
+margin-bottom: 1em;
+display: flex;
+justify-content: space-between;
+flex-direction: row;
 `
 
 const Image = styled.img`
@@ -29,11 +33,19 @@ grid-template-columns: 40% 1fr;
 grid-column-gap: 1em;
 `
 
+const Profile = styled.img`
+border-radius: 50%;
+`
+
 const Record = observer(({ record, onClick }) => (
     <Border onClick={onClick}>
         <Headline>
-            {record.name},
-            by {record.byline}<br/>
+            <div>
+                {record.name},
+                by {record.byline}
+            </div>
+
+            <Profile alt={record.member.name} src={`https://www.gravatar.com/avatar/${md5(record.member.email)}?d=retro&s=50`} />
         </Headline>
 
         <Span>
