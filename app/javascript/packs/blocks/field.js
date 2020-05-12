@@ -35,7 +35,7 @@ const Field = observer(({ as, model, attribute }) => {
             </Spacing>
         :
             <Spacing onClick={() => { changeOriginalValue(getSnapshot(model)[attribute]); changeEditing(true) }}>
-                {model[attribute]}
+                {model[attribute] || `click to set ${attribute}`}
             </Spacing>
     )
 })
