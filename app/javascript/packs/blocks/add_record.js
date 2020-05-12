@@ -37,8 +37,7 @@ const AddRecord = observer(() => (
 
         {model.goodreads_search === null
         ? null
-        : <Modal allowScroll={false}>
-            <a href="#" onClick={() => model.set("goodreads_search", null)} >cancel</a>
+        : <Modal onBackgroundClick={() => model.set("goodreads_search", null)} >
             <BaseField
               onChange={(e) => model.delay("goodreads_search", e.target.value, 1000, () => model.run_goodreads_search())}
               value={model.goodreads_search}
