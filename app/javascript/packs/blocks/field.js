@@ -3,7 +3,7 @@ import { observer } from "mobx-react"
 import { getSnapshot } from "mobx-state-tree"
 import styled from "styled-components"
 
-const BasicField = styled.input`
+const BaseField = styled.input`
 padding: 0.5rem;
 ${p => p.as === "textarea"
 ? "width: 30rem; height: 6rem;"
@@ -23,7 +23,7 @@ const Field = observer(({ as, model, attribute }) => {
         editing
         ?
             <Spacing>
-                <BasicField
+                <BaseField
                 as={as || "input"}
                 placeholder={attribute}
                 value={model[attribute]}
@@ -40,4 +40,5 @@ const Field = observer(({ as, model, attribute }) => {
     )
 })
 
+export { BaseField }
 export default Field

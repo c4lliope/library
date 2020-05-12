@@ -13,6 +13,7 @@ gem "bootsnap", require: false
 gem 'graphiql-rails'
 gem "graphql", "~> 1.10"
 gem "honeybadger"
+gem "http"
 gem "pg"
 gem "pg_search"
 gem "puma"

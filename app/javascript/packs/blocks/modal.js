@@ -12,4 +12,4 @@ border-radius: 8px;
 font-family: 'DM Mono', monospace;
 `
 
-export default (props) => <Modal {...props} allowScroll />
+export default (props) => <Modal isOpen allowScroll {...props} />

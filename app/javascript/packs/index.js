@@ -92,11 +92,11 @@ render(
             <Spacing space="2rem" overhang="6em" >
                 <Bar>
                     <Search/>
-                    <AddRecord/>
 
                     <AlignEnd>
                         <Session/>
                         <AddName/>
+                        <AddRecord/>
                     </AlignEnd>
                 </Bar>
 

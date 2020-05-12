@@ -1,6 +1,15 @@
 import { types } from "mobx-state-tree"
 import graph from "../graph"
 
+var delays = {}
+
+const GoodreadsResponse = types.model({
+    id: types.identifier,
+    name: types.string,
+    byline: types.string,
+    imageAddress: types.string,
+})
+
 const Member = types.model({
     id: types.identifier,
     name: types.maybeNull(types.string),
@@ -49,6 +58,9 @@ const Model = types.model({
     addingName: false,
     session_pending: false,
 
+    goodreads_search: types.maybeNull(types.string),
+    goodreads_responses: types.array(GoodreadsResponse),
+
     search: "",
     
 }).actions(self => ({
@@ -85,6 +97,10 @@ const Model = types.model({
         }`)({ ...changes, id })
         .then(response => self.claim_record(response.changeRecord.record))
     },
+
+    claim_goodreads_responses: (responses) => {
+        self.goodreads_responses = responses
+    },
     
     claim_record: (record) => {
         var index = self.records.indexOf(x => x.id === record.id)
@@ -97,6 +113,13 @@ const Model = types.model({
 
     claim_records: (records) => self.records = records,
     claim_session: (me) => self.me = me,
+
+    delay: (key, value, delay, callback) => {
+        self.set(key, value)
+
+        if(delays[key]) clearTimeout(delays[key])
+        delays[key] = setTimeout(callback, delay)
+    },
     
     drop_record: (id) => {
         if(self.focused_record.id === id)
@@ -128,6 +151,12 @@ const Model = types.model({
         graph(`query ($search: String) { records(search: $search) { id name byline summary member { id name email }}}`)
         ({ search: self.search })
         .then(response => self.claim_records(response.records) )
+    },
+
+    run_goodreads_search: () => {
+        graph(`query ($search: String!) { goodreadsSearch (search: $search) { id name byline imageAddress }}`)
+        ({ search: self.goodreads_search })
+        .then(response => self.claim_goodreads_responses(response.goodreadsSearch))
     },
 
     set: (key, value) => { self[key] = value },
