@@ -23,6 +23,7 @@ const Record = types.model({
     name: types.maybeNull(types.string),
     byline: types.maybeNull(types.string),
     summary: types.maybeNull(types.string),
+    imageAddress: types.maybeNull(types.string),
     language: "English",
     member: Member,
 }).actions(self => ({
@@ -64,15 +65,15 @@ const Model = types.model({
     search: "",
     
 }).actions(self => ({
-    add_record: (name, byline, summary) => {
-        graph(`mutation {
-            addRecord {
+    add_record: (name, byline, imageAddress) => {
+        graph(`mutation ($name: String, $byline: String, $imageAddress: String) {
+            addRecord (name: $name, byline: $byline, imageAddress: $imageAddress) {
                 record {
-                    id name byline summary
+                    id name byline imageAddress
                     member { id name email }
                 }
             }
-        }`)()
+        }`)({ name, byline, imageAddress })
         .then(response => {
             const record = Record.create(response.addRecord.record)
             self.claim_record(record)

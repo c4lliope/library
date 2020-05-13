@@ -50,7 +50,7 @@ const Record = observer(({ record, onClick }) => (
 
         <Span>
             <Image src={
-                record.image_url ||
+                record.imageAddress ||
                 `http://jpg.cool/${record.name.replace(" ", ".")}.by.${record.byline.replace(" ", ".")}`
             }
             alt={`Image of ${record.name}`}

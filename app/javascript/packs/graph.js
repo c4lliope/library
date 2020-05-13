@@ -10,7 +10,7 @@ const graph = graphql("/graphql", {
 export default graph
 
 const acquire_records = () => {
-    graph(`query { records { id name byline summary member { id name email }}}`)()
+    graph(`query { records { id name byline summary imageAddress member { id name email }}}`)()
     .then(response => model.claim_records(response.records) )
 }
 

@@ -22,6 +22,11 @@ display: flex;
 flex-direction: row;
 align-items: center;
 padding: 1rem;
+
+&:hover {
+    background-color: #efd2d2;
+    cursor: pointer;
+}
 `
 
 const Image = styled.img`
@@ -39,13 +44,21 @@ const AddRecord = observer(() => (
         ? null
         : <Modal onBackgroundClick={() => model.set("goodreads_search", null)} >
             <BaseField
+              ref={e => e && e.focus()}
               onChange={(e) => model.delay("goodreads_search", e.target.value, 1000, () => model.run_goodreads_search())}
               value={model.goodreads_search}
               placeholder="search goodreads"
               />
             <Responses>
                 {model.goodreads_responses.map(response => (
-                    <Response key={response.id}>
+                    <Response
+                        key={response.id}
+                        onClick={() => {
+                            model.focus_record(model.add_record(response.name, response.byline, response.imageAddress))
+                            model.set("goodreads_responses", [])
+                            model.set("goodreads_search", null)
+                        }}
+                    >
                         <Image src={response.imageAddress} alt={`${response.name} by ${response.byline}`} />
                         {response.name} by {response.byline}
                     </Response>
