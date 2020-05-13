@@ -24,12 +24,13 @@ var model = window.model = Model.create({})
 
 acquire_records()
 acquire_session()
+// model.delay("goodreads_search", "political order and political decay", 1000, () => model.run_goodreads_search())
 
 const Header = styled.div`
 background-color: #950cd6;
 text-align: right;
 color: #fbeed1;
-padding: 1rem;
+padding: 0.5rem;
 position: fixed;
 top: 0;
 left: 0;
@@ -47,14 +48,14 @@ ${p => p.overhang
 `
 
 const Heading = styled.div`
-font-size: 2em;
+font-size: 1.6em;
 
 @media(min-width: 1000px) {
 }
 `
 
 const Page = styled.div`
-background-color: #efd2d2;
+background-color: #f7e8bf;
 
 font-family: 'DM Mono', monospace;
 
@@ -89,7 +90,7 @@ render(
                 <Heading>...our shared library。</Heading>
             </Header>
 
-            <Spacing space="2rem" overhang="6em" >
+            <Spacing space="2rem" overhang="4em" >
                 <Bar>
                     <Search/>
 

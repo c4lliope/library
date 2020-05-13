@@ -8,8 +8,8 @@ import BaseBorder from "./border"
 const Border = styled(BaseBorder)`
 background-color: #fbeed1;
 
-border: 4px solid darkgrey;
-border-radius: 8px;
+border: 2px solid black;
+border-radius: 4px;
 `
 
 const Headline = styled.div`
@@ -35,6 +35,7 @@ grid-column-gap: 1em;
 
 const Profile = styled.img`
 border-radius: 50%;
+height: 50px;
 `
 
 const Record = observer(({ record, onClick }) => (

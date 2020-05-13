@@ -6,8 +6,8 @@ background-color: #fbeed1;
 padding: 1rem;
 max-height: 60vh;
 max-width: 40vw;
-border: 4px solid darkgrey;
-border-radius: 8px;
+border: 2px solid black;
+border-radius: 4px;
 
 font-family: 'DM Mono', monospace;
 `

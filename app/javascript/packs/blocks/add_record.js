@@ -24,7 +24,7 @@ align-items: center;
 padding: 1rem;
 
 &:hover {
-    background-color: #efd2d2;
+    background-color: #f7e8bf;
     cursor: pointer;
 }
 `
