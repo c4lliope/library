@@ -1,7 +1,16 @@
 import { types } from "mobx-state-tree"
+import { DateTime } from "luxon"
 import graph from "../graph"
 
 var delays = {}
+
+window.DateTime = DateTime
+const LuxonDate = types.custom({
+    fromSnapshot: (value) => DateTime.fromISO(value),
+    toSnapshot: (value) => value.toISODate(),
+    isTargetType: (value) => value.isLuxonDateTime,
+    getValidationMessage: (value) => { let d = DateTime.fromISO(value); return d.invalid && d.invalid.explanation },
+})
 
 const GoodreadsResponse = types.model({
     id: types.identifier,
@@ -41,17 +50,18 @@ const Record = types.model({
 
 const Hold = types.model({
     id: types.identifier,
-    member: Member,
     record: types.reference(Record),
-    begins_on: types.Date,
-    expires_on: types.Date,
+    beginsOn: LuxonDate,
+    expiresOn: LuxonDate,
 })
 
 const Model = types.model({
     records: types.array(Record),
     members: types.array(Member),
     me: types.maybeNull(Member),
+    holds: types.array(Hold),
 
+    displaying_holds: false,
     focused_record: types.maybeNull(types.reference(Record)),
     
     photoString: "",
@@ -81,6 +91,21 @@ const Model = types.model({
         })
     },
 
+    acquire_records: () => {
+        graph(`query { records { id name byline summary imageAddress member { id name email }}}`)()
+        .then(response => self.claim_records(response.records) )
+    },
+
+    acquire_session: () => {
+        graph(`query { me { id name surname email address
+            holds { id record beginsOn expiresOn }
+        } }`)()
+        .then(response => {
+            self.claim_session(response.me)
+            self.claim_holds(response.me.holds)
+        })
+    },
+
     change_me: (changes) => {
         graph(`mutation ($name: String!, $surname: String!, $address: String!) {
             changeMe (name: $name, surname: $surname, address: $address) {
@@ -102,14 +127,18 @@ const Model = types.model({
     claim_goodreads_responses: (responses) => {
         self.goodreads_responses = responses
     },
+
+    claim_holds: (holds) => {
+        self.holds = holds
+    },
     
     claim_record: (record) => {
         var index = self.records.indexOf(x => x.id === record.id)
 
-        if(index != -1)
-            self.records.splice(index, 1, record)
-        else
+        if(index === -1)
             self.records.push(record)
+        else
+            self.records.splice(index, 1, record)
     },
 
     claim_records: (records) => self.records = records,
@@ -145,7 +174,10 @@ const Model = types.model({
     place_hold: (record) => {
         graph(`mutation ($recordId: ID!) { placeHold(recordId: $recordId) { hold { beginsOn expiresOn } } }`)
         ({ recordId: record.id })
-        .then(response => self.hold_dialogue(response.placeHold.hold))
+        .then(response => {
+            self.set("displaying_holds", true)
+            self.acquire_session()
+        })
     },
 
     run_search: () => {

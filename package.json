@@ -18,6 +18,7 @@
     "graphql.js": "^0.6.6",
     "image-capture": "^0.4.0",
     "js-md5": "^0.7.3",
+    "luxon": "^1.24.1",
     "mobx": "^5.15.4",
     "mobx-react": "^6.2.2",
     "mobx-state-tree": "^3.16.0",

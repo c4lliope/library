@@ -15,6 +15,7 @@ import AddRecord from "./blocks/add_record"
 import FocusedRecord from "./blocks/focused_record"
 import Home from "./blocks/home"
 import Session from "./blocks/session"
+import Holds from "./blocks/holds"
 import Search from "./blocks/search"
 
 import Model from "./models"
@@ -22,8 +23,8 @@ import { acquire_records, acquire_session } from "./graph"
 
 var model = window.model = Model.create({})
 
-acquire_records()
-acquire_session()
+model.acquire_records()
+model.acquire_session()
 // model.delay("goodreads_search", "political order and political decay", 1000, () => model.run_goodreads_search())
 
 const Header = styled.div`
@@ -97,6 +98,7 @@ render(
                         <Session/>
                         <AddName/>
                         <AddRecord/>
+                        <Holds/>
                     </AlignEnd>
                 </Bar>
 

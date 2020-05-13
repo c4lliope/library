@@ -10,7 +10,7 @@ module Mutations
         {}
       else
         hold = member.holds.create(
-          held_record: Record.find(record_id),
+          record: Record.find(record_id),
           begins_on: Time.current,
           expires_on: 30.days.from_now,
         )
