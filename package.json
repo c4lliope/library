@@ -4,6 +4,8 @@
   "dependencies": {
     "@babel/preset-react": "^7.9.4",
     "@babel/preset-typescript": "^7.9.0",
+    "@mdi/js": "^5.2.45",
+    "@mdi/react": "^1.4.0",
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",

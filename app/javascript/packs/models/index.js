@@ -150,7 +150,7 @@ const Model = types.model({
 
     run_search: () => {
         graph(`query ($search: String) { records(search: $search) { id name byline summary member { id name email }}}`)
-        ({ search: self.search })
+        ({ search: self.search || null })
         .then(response => self.claim_records(response.records) )
     },
 

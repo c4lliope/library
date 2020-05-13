@@ -63,7 +63,6 @@ input {
     font-size: 1.6em;
     clear: both;
     margin-bottom: 0.2em;
-    border: 1px solid grey;
 }
 
 font-size: 36px;
@@ -72,11 +71,11 @@ font-size: 36px;
 }
 `
 
-const Bar = styled(Spacing)`
-  display: flex;
-  left: 0;
-  right: 0;
-  justify-content: space-between;
+const Bar = styled.div`
+  padding: 1rem 0;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-column-gap: 1rem;
 `
 
 const AlignEnd = styled.div`
