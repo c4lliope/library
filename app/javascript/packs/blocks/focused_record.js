@@ -41,7 +41,7 @@ const FocusedRecord = observer(() => (
             <Field model={model.focused_record} attribute="summary" as="textarea" />
 
             <Links>
-                <a href="#" onClick={() => model.place_hold(model.focused_record)} >place hold (pending)</a>
+                <a href="#" onClick={() => model.place_hold(model.focused_record)} >place hold</a>
                 <a href="#" onClick={() => model.flag(model.focused_record)} >flag (pending)</a>
             </Links>
         </Modal>
