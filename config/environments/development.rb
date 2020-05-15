@@ -16,6 +16,7 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :file
   config.action_mailer.perform_caching = false
+  config.action_mailer.preview_path = "#{Rails.root}/spec/mailers/previews"
   config.active_support.deprecation = :log
   config.active_record.migration_error = :page_load
   config.active_record.verbose_query_logs = true

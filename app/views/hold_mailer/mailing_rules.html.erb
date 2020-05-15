@@ -1,0 +1,17 @@
+<h1>"<%= @hold.record.name %>" has been reserved.</h1>
+
+<p>
+"<%= @hold.record.name %>" has been reserved:<br/>
+from <%= @hold.begins_on.to_date %><br/>
+to&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <%= @hold.expires_on.to_date %><br/>
+</p>
+
+<p>
+Please mail "<%= @hold.record.name %>" as soon as you can.<br/>
+Address:
+</p>
+
+<pre><code>
+<%= @hold.member.name %> <%= @hold.member.surname %>
+<%= @hold.member.address %>
+</code></pre>

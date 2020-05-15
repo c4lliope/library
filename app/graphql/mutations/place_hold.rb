@@ -14,6 +14,9 @@ module Mutations
           begins_on: Time.current,
           expires_on: 30.days.from_now,
         )
+
+        HoldMailer.with(hold: hold).mailing_rules.deliver_later
+
         { hold: hold }
       end
     end

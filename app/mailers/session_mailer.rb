@@ -5,6 +5,6 @@ class SessionMailer < ApplicationMailer
         @session = params[:session]
         @url = "http://#{ENV["APPLICATION_HOST"]}/session/#{@session.code}"
 
-        mail(to: @session.member.email, subject: 'Shared Library: sign in.')
+        mail(to: @session.member.email, subject: 'Our Shared Library: sign in.')
     end
 end
