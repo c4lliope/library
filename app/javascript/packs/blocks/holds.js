@@ -11,6 +11,8 @@ const Holds = observer(() => (
         {model.displaying_holds
         ?
             <Modal onBackgroundClick={() => model.set("displaying_holds", false)}>
+                <h2>Your holds:</h2>
+                {model.holds.length === 0 && "none."}
                 {model.holds.map(hold => (
                     <div key={hold.id}>
                         {hold.recordId.name} by {hold.recordId.byline},

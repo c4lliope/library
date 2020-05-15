@@ -68,6 +68,7 @@ const Model = types.model({
     cameraIsOpen: false,
     addingName: false,
     session_pending: false,
+    display: "grid",
 
     goodreads_search: types.maybeNull(types.string),
     goodreads_responses: types.array(GoodreadsResponse),
