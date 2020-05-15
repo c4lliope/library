@@ -50,7 +50,7 @@ const Record = types.model({
 
 const Hold = types.model({
     id: types.identifier,
-    record: types.reference(Record),
+    recordId: types.reference(Record),
     beginsOn: LuxonDate,
     expiresOn: LuxonDate,
 })
@@ -98,7 +98,7 @@ const Model = types.model({
 
     acquire_session: () => {
         graph(`query { me { id name surname email address
-            holds { id record beginsOn expiresOn }
+            holds { id recordId beginsOn expiresOn }
         } }`)()
         .then(response => {
             self.claim_session(response.me)

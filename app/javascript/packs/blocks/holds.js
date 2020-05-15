@@ -13,7 +13,7 @@ const Holds = observer(() => (
             <Modal onBackgroundClick={() => model.set("displaying_holds", false)}>
                 {model.holds.map(hold => (
                     <div key={hold.id}>
-                        {hold.record.name} by {hold.record.byline},
+                        {hold.recordId.name} by {hold.recordId.byline},
                         from {hold.beginsOn.toISODate()} to {hold.expiresOn.toISODate()}.
                     </div>
                 ))}
