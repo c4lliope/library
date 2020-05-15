@@ -41,9 +41,9 @@ module Types
 
     def records(only:, search:)
       if(search)
-        Record.search(search).limit(only)
+        Record.search(search).limit(only).includes(:member)
       else
-        Record.all.limit(only)
+        Record.all.limit(only).includes(:member)
       end
     end
 
