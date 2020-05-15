@@ -13,9 +13,11 @@ module Mutations
           record: Record.find(record_id),
           begins_on: Time.current,
           expires_on: 30.days.from_now,
+          landing_code: SecureRandom.uuid,
         )
 
         HoldMailer.with(hold: hold).mailing_rules.deliver_later
+        HoldMailer.with(hold: hold).landing_rules.deliver_later
 
         { hold: hold }
       end

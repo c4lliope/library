@@ -1,0 +1,15 @@
+<h1>"<%= @hold.record.name %>" receipt confirmation</h1>
+
+<p>
+Please keep this email until you receive "<%= @hold.record.name %>" by mail.
+</p>
+
+<p>
+When you do receive "<%= @hold.record.name %>",
+please <a href="<%= @landing_address %>">click here</a>.<br/>
+You can also use the link below.
+</p>
+
+<p>
+<%= @landing_address %>
+</p>

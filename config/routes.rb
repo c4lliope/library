@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   end
   post "/graphql", to: "graphql#execute"
   get "/session/:code", to: "sessions#claim"
+  get "/holds/:landing_code", to: "holds#landing"
 
   root "library#index"
 end

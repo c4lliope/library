@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_12_225111) do
+ActiveRecord::Schema.define(version: 2020_05_15_045424) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 2020_05_12_225111) do
     t.datetime "expires_on"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.uuid "landing_code", null: false
     t.index ["member_id"], name: "index_holds_on_member_id"
     t.index ["record_id"], name: "index_holds_on_record_id"
   end
