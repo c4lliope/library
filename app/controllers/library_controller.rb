@@ -4,4 +4,7 @@ class LibraryController < ApplicationController
 
   def mail_money_pool
   end
+
+  def librarian_salary_pool
+  end
 end
