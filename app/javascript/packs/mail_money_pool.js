@@ -73,7 +73,7 @@ render(
                 </p>
                 <p>
                 Our business model depends on people mailing books,<br/>
-                and so far our members are spending hard-earned money.<br/>
+                so our members spend hard-earned money.<br/>
                 </p>
                 <p>
                 Our plan includes reimbursing mailers<br/>
