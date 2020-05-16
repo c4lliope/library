@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   post "/graphql", to: "graphql#execute"
   get "/session/:code", to: "sessions#claim"
   get "/holds/:landing_code", to: "holds#landing"
-
+  
+  get "/mail-money-pool", to: "library#mail_money_pool"
   root "library#index"
 end
