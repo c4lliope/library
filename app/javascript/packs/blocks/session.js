@@ -29,6 +29,7 @@ const Session = observer(() => {
     return (
         <div>
             Signed in as {model.me.name || model.me.email}.
+            &nbsp;<a href="#" onClick={() => { model.set("me", null); localStorage.removeItem("code") }}>end session.</a>
         </div>
     )
 })

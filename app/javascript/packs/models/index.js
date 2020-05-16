@@ -19,12 +19,18 @@ const GoodreadsResponse = types.model({
     imageAddress: types.string,
 })
 
+const ShippingCharge = types.model({
+    price: types.number,
+    holdId: types.reference(types.late(() => Hold)),
+})
+
 const Member = types.model({
     id: types.identifier,
     name: types.maybeNull(types.string),
     surname: types.maybeNull(types.string),
     address: types.maybeNull(types.string),
     email: types.string,
+    shippingCharges: types.array(ShippingCharge),
 })
 
 const Record = types.model({
@@ -69,13 +75,21 @@ const Model = types.model({
     addingName: false,
     session_pending: false,
     display: "grid",
+    claimMoneyModal: false,
 
     goodreads_search: types.maybeNull(types.string),
     goodreads_responses: types.array(GoodreadsResponse),
 
     search: "",
     
-}).actions(self => ({
+}).views(self => ({
+    get money() {
+        var price = 0
+        self.me.shippingCharges.forEach(x => price += x.price)
+        return (price
+            )
+        },
+})).actions(self => ({
     add_record: (name, byline, imageAddress) => {
         graph(`mutation ($name: String, $byline: String, $imageAddress: String) {
             addRecord (name: $name, byline: $byline, imageAddress: $imageAddress) {
@@ -100,6 +114,7 @@ const Model = types.model({
     acquire_session: () => {
         graph(`query { me { id name surname email address
             holds { id recordId beginsOn expiresOn }
+            shippingCharges { price holdId }
         } }`)()
         .then(response => {
             self.claim_session(response.me)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_15_045424) do
+ActiveRecord::Schema.define(version: 2020_05_16_054200) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,8 +61,20 @@ ActiveRecord::Schema.define(version: 2020_05_15_045424) do
     t.index ["member_id"], name: "index_sessions_on_member_id"
   end
 
+  create_table "shipping_charges", force: :cascade do |t|
+    t.bigint "hold_id", null: false
+    t.bigint "member_id", null: false
+    t.float "price"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["hold_id"], name: "index_shipping_charges_on_hold_id"
+    t.index ["member_id"], name: "index_shipping_charges_on_member_id"
+  end
+
   add_foreign_key "holds", "members"
   add_foreign_key "holds", "records"
   add_foreign_key "records", "members"
   add_foreign_key "sessions", "members"
+  add_foreign_key "shipping_charges", "holds"
+  add_foreign_key "shipping_charges", "members"
 end

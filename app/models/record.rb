@@ -11,5 +11,5 @@ class Record < ApplicationRecord
     }
 
   belongs_to :member
-  has_many :bookings
+  has_many :holds
 end

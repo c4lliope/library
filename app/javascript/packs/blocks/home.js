@@ -29,6 +29,7 @@ grid-template-columns: 80px 2fr 1fr 4fr;
 grid-column-gap: 1rem;
 padding: 0.5rem;
 border-bottom: 2px solid black;
+background-color: #fbeed1;
 `
 
 const Image = styled.img`

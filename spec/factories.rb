@@ -1,5 +1,9 @@
 # spec/factories.rb
 FactoryBot.define do
+  factory :shipping_charge do
+    
+  end
+
   factory :session do
     member { nil }
     expires { "2020-05-06 14:07:04" }

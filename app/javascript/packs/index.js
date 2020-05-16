@@ -17,6 +17,7 @@ import Home from "./blocks/home"
 import Session from "./blocks/session"
 import Holds from "./blocks/holds"
 import Search from "./blocks/search"
+import Money from "./blocks/money"
 
 import Model from "./models"
 import { acquire_records, acquire_session } from "./graph"
@@ -99,6 +100,7 @@ render(
                         <AddName/>
                         <AddRecord/>
                         <Holds/>
+                        <Money/>
                     </AlignEnd>
                 </Bar>
 
