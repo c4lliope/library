@@ -13,6 +13,11 @@ import { ModalProvider } from 'styled-react-modal'
 import Border from "./blocks/border"
 import Header, { Spacing as BaseSpacing } from "./blocks/header"
 
+import { Pool } from "./models"
+
+window.model = Pool.create({})
+model.acquire_charges("mail")
+
 const Spacing = styled(BaseSpacing)`
 display: grid;
 grid-template-columns: auto 1fr;
@@ -68,7 +73,7 @@ render(
                 Mail Money Pool
                 </Large>
                 <p>
-                Our Shared Library is nearly open for business;<br/>
+                Our Shared Library is nearly up and running;<br/>
                 a scrappy online home for lending and leasing books among peers.<br/>
                 </p>
                 <p>
@@ -94,10 +99,13 @@ render(
             </Appeal>
 
             <Border>
-                <Large>Become a donor.</Large>
+                <Large>Pool: ${model.pool_sum}</Large>
+                <p>Become a donor.</p>
+                <p>
                 Please send <a href="https://cash.app">Square Cash</a>.<br/>
                 Handle: $c4lliope<br/>
                 Message: "Mail Money Pool"<br/>
+                </p>
             </Border>
             </Spacing>
         </Page>

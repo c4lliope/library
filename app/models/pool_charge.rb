@@ -1,0 +1,2 @@
+class PoolCharge < ApplicationRecord
+end

@@ -24,6 +24,13 @@ const ShippingCharge = types.model({
     holdId: types.reference(types.late(() => Hold)),
 })
 
+const PoolCharge = types.model({
+    price: types.number,
+    donor_handle: types.string,
+    pool: types.string,
+    paidOn: LuxonDate,
+})
+
 const Member = types.model({
     id: types.identifier,
     name: types.maybeNull(types.string),
@@ -224,5 +231,21 @@ const Model = types.model({
     }
 }))
 
-export { Member, Record }
+const Pool = types.model({
+    pool_charges: types.array(PoolCharge),
+}).actions(self => ({
+    acquire_charges: (pool) => {
+        graph(`query ($pool) { poolCharges (pool: $pool) { donorHandle price paidOn pool } }`)
+        ({ pool: pool })
+        .then(response => self.claim("pool_charges", response.poolCharges))
+    },
+
+    claim: (key, pause) => {
+        self[key] = pause
+    }
+})).views(self => ({
+    get pool_sum() { return self.pool_charges.reduce((sum, x) => sum + x.price, 0) },
+}))
+
+export { Member, Record, Pool }
 export default Model

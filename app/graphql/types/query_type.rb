@@ -22,6 +22,11 @@ module Types
       argument :search, String, required: true
     end
 
+    field :pool_charges, [Types::PoolChargeType], null: false do
+      description "All charges for a pool"
+      argument :pool, String, required: true
+    end
+
     def goodreads_search(search:)
       responses = Nokogiri::XML(HTTP.get([
         "https://www.goodreads.com/search/index.xml",
@@ -37,6 +42,10 @@ module Types
           image_address: response.css("best_book > image_url").text,
         }
       end
+    end
+
+    def pool_charges(pool:)
+      PoolCharge.where(pool: pool)
     end
 
     def records(only:, search:)

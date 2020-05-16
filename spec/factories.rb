@@ -1,5 +1,11 @@
 # spec/factories.rb
 FactoryBot.define do
+  factory :pool_charge do
+    pool { "MyString" }
+    price { 1.5 }
+    donor_handle { "MyString" }
+  end
+
   factory :shipping_charge do
     
   end
