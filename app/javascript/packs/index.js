@@ -18,43 +18,15 @@ import Session from "./blocks/session"
 import Holds from "./blocks/holds"
 import Search from "./blocks/search"
 import Money from "./blocks/money"
+import Header, { Spacing } from "./blocks/header"
 
 import Model from "./models"
-import { acquire_records, acquire_session } from "./graph"
 
 var model = window.model = Model.create({})
 
 model.acquire_records()
 model.acquire_session()
 // model.delay("goodreads_search", "political order and political decay", 1000, () => model.run_goodreads_search())
-
-const Header = styled.div`
-background-color: #950cd6;
-text-align: right;
-color: #fbeed1;
-padding: 0.5rem;
-position: fixed;
-top: 0;
-left: 0;
-right: 0;
-box-shadow: 0px 6px 6px 0px #b16893;
-font-family: 'Carter One', sans-serif;
-`
-
-const Spacing = styled.div`
-padding: ${p => p.space || "1rem"};
-${p => p.overhang
-? `padding-top: ${p.overhang};`
-: null
-}
-`
-
-const Heading = styled.div`
-font-size: 1.6em;
-
-@media(min-width: 1000px) {
-}
-`
 
 const Page = styled.div`
 background-color: #f7e8bf;
@@ -87,9 +59,7 @@ text-align: end;
 render(
     <ModalProvider>
         <Page>
-            <Header>
-                <Heading>...our shared library。</Heading>
-            </Header>
+            <Header/>
 
             <Spacing space="2rem" overhang="4em" >
                 <Bar>
