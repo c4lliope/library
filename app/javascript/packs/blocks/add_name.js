@@ -1,8 +1,13 @@
 import React from "react"
 import { observer } from "mobx-react"
+import styled from "styled-components"
 
 import Modal from "./modal"
-import ProcessMember from "./process_member"
+import Field from "./field"
+
+const Label = styled.span`
+color: grey;
+`
 
 const AddName = observer(() => (
     model.addingName
@@ -16,16 +21,16 @@ const AddName = observer(() => (
                 your name and address may be shared among your peers.
             </p>
 
-            <ProcessMember
-                originalName={model.me.name}
-                originalSurname={model.me.surname}
-                originalAddress={model.me.address}
-                buttonText="Record name and address"
-                onProcess={({ name, surname, address }) => {
-                    model.change_me({ name, surname, address })
-                    model.set("addingName", false)
-                }}
-                />
+            
+            <Label>Name:</Label>
+            <Field model={model.me} claim="name" />
+
+            <Label>Surname:</Label>
+            <Field model={model.me} claim="surname" />
+
+            <Label>Address:</Label>
+            <Field model={model.me} claim="address" as="textarea" />
+            
         </Modal>
         : model.me ?
         (model.me.name === null || model.me.surname === null || model.me.address === null)

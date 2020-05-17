@@ -13,6 +13,7 @@ ${p => p.as === "textarea"
 
 const Spacing = styled.div`
 padding: 0.5rem;
+white-space: pre-wrap;
 `
 
 const Field = observer(({ as, model, claim }) => {
@@ -24,18 +25,19 @@ const Field = observer(({ as, model, claim }) => {
         ?
             <Spacing>
                 <BaseField
+                ref={e => e && e.focus()}
                 as={as || "input"}
                 placeholder={claim}
                 value={model[claim]}
                 onChange={e => model.set(claim, e.target.value)}
                 />
-                <a href="#" onClick={() => {model.change(claim, model[claim]); changeEditing(false) }}>save</a>
+                <a href="#" onClick={() => {model.change(claim, model[claim]); changeEditing(false) }}>remember change</a>
                 &nbsp;or&nbsp;
                 <a href="#" onClick={() => {model.set(claim, originalValue); changeEditing(false) }}>cancel</a>
             </Spacing>
         :
             <Spacing onClick={() => { changeOriginalValue(getSnapshot(model)[claim]); changeEditing(true) }}>
-                {model[claim] || `click to set ${claim}`}
+                {model[claim] || `click: ${claim}`}
             </Spacing>
     )
 })

@@ -38,7 +38,18 @@ const Member = types.model({
     address: types.maybeNull(types.string),
     email: types.string,
     shippingCharges: types.array(ShippingCharge),
-})
+}).actions(self => ({
+    set: (key, value) => { self[key] = value },
+
+    change: (key, value) => {
+        graph(`mutation ($${key}: String!) {
+            changeMe (${key}: $${key}) {
+                me { ${key} }
+            }
+        }`)({ [key]: value, id: self.id })
+        .then(response => self.set(key, response.changeMe.me[key]))
+    },
+}))
 
 const Record = types.model({
     id: types.identifier,

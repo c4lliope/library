@@ -68,7 +68,7 @@ const Home = observer(() => (
         </GridLay>
         </>
         : <>
-        <a href="#" onClick={() => model.set("display", "grid")}>Display as grid.</a>
+        <Middle><a href="#" onClick={() => model.set("display", "grid")}>Display as grid.</a></Middle>
         <CardLay>
             {model.records.map(record => (
                 <Record
