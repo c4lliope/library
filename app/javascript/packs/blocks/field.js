@@ -15,7 +15,7 @@ const Spacing = styled.div`
 padding: 0.5rem;
 `
 
-const Field = observer(({ as, model, attribute }) => {
+const Field = observer(({ as, model, claim }) => {
     const [editing, changeEditing] = useState(false)
     const [originalValue, changeOriginalValue] = useState({})
 
@@ -25,17 +25,17 @@ const Field = observer(({ as, model, attribute }) => {
             <Spacing>
                 <BaseField
                 as={as || "input"}
-                placeholder={attribute}
-                value={model[attribute]}
-                onChange={e => model.set(attribute, e.target.value)}
+                placeholder={claim}
+                value={model[claim]}
+                onChange={e => model.set(claim, e.target.value)}
                 />
-                <a href="#" onClick={() => {model.change(attribute, model[attribute]); changeEditing(false) }}>save</a>
+                <a href="#" onClick={() => {model.change(claim, model[claim]); changeEditing(false) }}>save</a>
                 &nbsp;or&nbsp;
-                <a href="#" onClick={() => {model.set(attribute, originalValue); changeEditing(false) }}>cancel</a>
+                <a href="#" onClick={() => {model.set(claim, originalValue); changeEditing(false) }}>cancel</a>
             </Spacing>
         :
-            <Spacing onClick={() => { changeOriginalValue(getSnapshot(model)[attribute]); changeEditing(true) }}>
-                {model[attribute] || `click to set ${attribute}`}
+            <Spacing onClick={() => { changeOriginalValue(getSnapshot(model)[claim]); changeEditing(true) }}>
+                {model[claim] || `click to set ${claim}`}
             </Spacing>
     )
 })

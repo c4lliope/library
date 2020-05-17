@@ -32,13 +32,13 @@ const FocusedRecord = observer(() => (
             }
 
             <Label>Name:</Label>
-            <Field model={model.focused_record} attribute="name" />
+            <Field model={model.focused_record} claim="name" />
 
             <Label>By:</Label>
-            <Field model={model.focused_record} attribute="byline" />
+            <Field model={model.focused_record} claim="byline" />
 
             <Label>Summary:</Label>
-            <Field model={model.focused_record} attribute="summary" as="textarea" />
+            <Field model={model.focused_record} claim="summary" as="textarea" />
 
             <Links>
                 <a href="#" onClick={() => model.place_hold(model.focused_record)} >place hold</a>
