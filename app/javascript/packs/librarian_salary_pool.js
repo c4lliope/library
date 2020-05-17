@@ -12,15 +12,17 @@ import { ModalProvider } from 'styled-react-modal'
 
 import Border from "./blocks/border"
 import Header, { Spacing as BaseSpacing } from "./blocks/header"
+import Links from "./blocks/links"
+import Pool from "./blocks/pool"
 
-import { Pool } from "./models"
+import { Pool as Model } from "./models"
 
-window.model = Pool.create({})
+window.model = Model.create({})
 model.acquire_charges("librarian")
 
 const Spacing = styled(BaseSpacing)`
 display: grid;
-grid-template-columns: auto 1fr;
+grid-template-columns: auto 1fr auto;
 grid-column-gap: 1rem;
 
 @media(max-width: 1000px) {
@@ -68,6 +70,8 @@ render(
             <Header/>
 
             <Spacing space="2rem" overhang="4em" >
+            <Links/>
+
             <Appeal>
                 <Large>
                 Librarian Salary Pool
@@ -95,15 +99,7 @@ render(
                 </p>
             </Appeal>
 
-            <Border>
-                <Large>Pool: ${model.pool_sum}</Large>
-                <p>Become a donor.</p>
-                <p>
-                Please use <a href="https://cash.app">Square Cash</a>.<br/>
-                Handle: $c4lliope<br/>
-                Message: "librarian"<br/>
-                </p>
-            </Border>
+            <Pool pool="librarian" />
             </Spacing>
         </Page>
     </ModalProvider>,

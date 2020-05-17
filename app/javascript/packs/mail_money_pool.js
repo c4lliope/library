@@ -12,15 +12,17 @@ import { ModalProvider } from 'styled-react-modal'
 
 import Border from "./blocks/border"
 import Header, { Spacing as BaseSpacing } from "./blocks/header"
+import Links from "./blocks/links"
+import Pool from "./blocks/pool"
 
-import { Pool } from "./models"
+import { Pool as Model } from "./models"
 
-window.model = Pool.create({})
+window.model = Model.create({})
 model.acquire_charges("mail")
 
 const Spacing = styled(BaseSpacing)`
 display: grid;
-grid-template-columns: auto 1fr;
+grid-template-columns: auto 1fr auto;
 grid-column-gap: 1rem;
 
 @media(max-width: 1000px) {
@@ -59,19 +61,18 @@ text-align: end;
 const Appeal = styled.div`
 `
 
-const Large = styled.h3`
-`
-
 render(
     <ModalProvider>
         <Page>
             <Header/>
 
             <Spacing space="2rem" overhang="4em" >
+            <Links/>
+
             <Appeal>
-                <Large>
+                <h3>
                 Mail Money Pool
-                </Large>
+                </h3>
                 <p>
                 Our Shared Library is nearly up and running;<br/>
                 a scrappy online program<br/>
@@ -80,13 +81,13 @@ render(
                 <p>
                 Our business model depends on people mailing books,<br/>
                 so our members spend hard-earned money.<br/>
-                Our plan includes reimbursing members so more people can lend.<br/>
+                Our plan reimburses members so more people can lend.<br/>
                 </p>
                 <p>
                 Help more people read good books by becoming a donor.<br/>
                 </p>
                 <p>
-                Proceeds are only used by librarians reimbursing our members' mailings.<br/>
+                Proceeds are only used by reimbursing members.<br/>
                 </p>
                 <p>
                 Much obliged,<br/>
@@ -95,15 +96,7 @@ render(
                 </p>
             </Appeal>
 
-            <Border>
-                <Large>Pool: ${model.pool_sum}</Large>
-                <p>Become a donor.</p>
-                <p>
-                Please use <a href="https://cash.app">Square Cash</a>.<br/>
-                Handle: $c4lliope<br/>
-                Message: "mail"<br/>
-                </p>
-            </Border>
+            <Pool pool="mail" />
             </Spacing>
         </Page>
     </ModalProvider>,

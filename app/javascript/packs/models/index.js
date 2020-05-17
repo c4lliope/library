@@ -235,7 +235,7 @@ const Pool = types.model({
     pool_charges: types.array(PoolCharge),
 }).actions(self => ({
     acquire_charges: (pool) => {
-        graph(`query ($pool) { poolCharges (pool: $pool) { donorHandle price paidOn pool } }`)
+        graph(`query ($pool: String!) { poolCharges (pool: $pool) { donorHandle price paidOn pool } }`)
         ({ pool: pool })
         .then(response => self.claim("pool_charges", response.poolCharges))
     },
