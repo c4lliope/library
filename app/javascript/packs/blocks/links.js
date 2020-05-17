@@ -1,10 +1,18 @@
 import React from "react"
 import { observer } from "mobx-react"
+import styled from "styled-components"
+
+const ColoredLink = styled.a`
+color: ${p => p.here ? "#f7e8bf" : "#950cd6"};
+background-color: ${p => p.here ? "#950cd6" : "#fbeed1" };
+`
 
 const YouAreHereLink = ({ link, here }) => (
     <>
-    <a href={link} >{link}</a>
-    {link === here && "- you are here."}
+    <ColoredLink
+     here={link === here && "- you are here."}
+     href={link}
+     >{link}</ColoredLink>
     </>
 )
 
