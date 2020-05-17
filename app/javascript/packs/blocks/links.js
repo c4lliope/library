@@ -1,14 +1,20 @@
 import React from "react"
 import { observer } from "mobx-react"
 
+const YouAreHereLink = ({ link, here }) => (
+    <>
+    <a href={link} >{link}</a>
+    {link === here && "- you are here."}
+    </>
+)
 
-const Links = observer(() => (
+const Links = observer(({ here }) => (
     <div>
         <h3>Links</h3>
 
-        <a href="/">/</a><br/>
-        <a href="/mail-money-pool">/mail-money-pool</a><br/>
-        <a href="/librarian-salary-pool">/librarian-salary-pool</a><br/>
+        <YouAreHereLink here={here} link="/" /><br/>
+        <YouAreHereLink here={here} link="/mail-money-pool" /><br/>
+        <YouAreHereLink here={here} link="/librarian-salary-pool" /><br/>
     </div>
 ))
 

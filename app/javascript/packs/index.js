@@ -64,7 +64,7 @@ render(
 
             <Spacing space="2rem" overhang="4em" >
                 <Bar>
-                    <Links/>
+                    <Links here="/" />
 
                     <AlignEnd>
                         <Search/>

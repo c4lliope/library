@@ -67,7 +67,7 @@ render(
             <Header/>
 
             <Spacing space="2rem" overhang="4em" >
-            <Links/>
+            <Links here="/mail-money-pool" />
 
             <Appeal>
                 <h3>
