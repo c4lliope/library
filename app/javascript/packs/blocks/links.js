@@ -6,9 +6,9 @@ const Links = observer(() => (
     <div>
         <h3>Links</h3>
 
-        <p><a href="/">/</a></p>
-        <p><a href="/mail-money-pool">/mail-money-pool</a></p>
-        <p><a href="/librarian-salary-pool">/librarian-salary-pool</a></p>
+        <a href="/">/</a><br/>
+        <a href="/mail-money-pool">/mail-money-pool</a><br/>
+        <a href="/librarian-salary-pool">/librarian-salary-pool</a><br/>
     </div>
 ))
 

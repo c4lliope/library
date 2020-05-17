@@ -37,12 +37,16 @@ border: 1px solid grey;
 width: 100%;
 `
 
+const Middle = styled.div`
+text-align: center;
+`
+
 const Home = observer(() => (
     model.records.length > 0
     ? (
         model.display === "grid"
         ? <>
-        <a href="#" onClick={() => model.set("display", "card")}>Display as cards.</a>
+        <Middle><a href="#" onClick={() => model.set("display", "card")}>Display as cards.</a></Middle>
         <GridLay>
             {model.records.map(record => (
                 <GridBar
