@@ -74,16 +74,13 @@ render(
                 </Large>
                 <p>
                 Our Shared Library is nearly up and running;<br/>
-                a scrappy online home for lending and leasing books among peers.<br/>
+                a scrappy online program<br/>
+                encouraging lending and leasing among peers.<br/>
                 </p>
                 <p>
                 Our business model depends on people mailing books,<br/>
                 so our members spend hard-earned money.<br/>
-                </p>
-                <p>
-                Our plan includes reimbursing mailers<br/>
-                so more people can lend a hand,<br/>
-                and here you can help.<br/>
+                Our plan includes reimbursing members so more people can lend.<br/>
                 </p>
                 <p>
                 Help more people read good books by becoming a donor.<br/>
@@ -102,9 +99,9 @@ render(
                 <Large>Pool: ${model.pool_sum}</Large>
                 <p>Become a donor.</p>
                 <p>
-                Please send <a href="https://cash.app">Square Cash</a>.<br/>
+                Please use <a href="https://cash.app">Square Cash</a>.<br/>
                 Handle: $c4lliope<br/>
-                Message: "Mail Money Pool"<br/>
+                Message: "mail"<br/>
                 </p>
             </Border>
             </Spacing>

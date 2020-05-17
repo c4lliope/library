@@ -74,7 +74,8 @@ render(
                 </Large>
                 <p>
                 Our Shared Library is nearly up and running;<br/>
-                a scrappy online home for lending and leasing books among peers.<br/>
+                a scrappy online program<br/>
+                encouraging lending and leasing among peers.<br/>
                 </p>
                 <p>
                 Our business model depends on librarians<br/>
@@ -98,9 +99,9 @@ render(
                 <Large>Pool: ${model.pool_sum}</Large>
                 <p>Become a donor.</p>
                 <p>
-                Please send <a href="https://cash.app">Square Cash</a>.<br/>
+                Please use <a href="https://cash.app">Square Cash</a>.<br/>
                 Handle: $c4lliope<br/>
-                Message: "Librarian Salary Pool"<br/>
+                Message: "librarian"<br/>
                 </p>
             </Border>
             </Spacing>
