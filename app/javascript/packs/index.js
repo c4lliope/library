@@ -17,6 +17,8 @@ import Home from "./blocks/home"
 import Session from "./blocks/session"
 import Holds from "./blocks/holds"
 import Search from "./blocks/search"
+import Links from "./blocks/links"
+import Border from "./blocks/border"
 import Money from "./blocks/money"
 import Header, { Spacing } from "./blocks/header"
 
@@ -34,8 +36,7 @@ background-color: #f7e8bf;
 font-family: 'DM Mono', monospace;
 
 input {
-    font-size: 1.6em;
-    clear: both;
+    font-size: 1.2em;
     margin-bottom: 0.2em;
 }
 
@@ -48,7 +49,7 @@ font-size: 36px;
 const Bar = styled.div`
   padding: 1rem 0;
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: auto 1fr;
   grid-column-gap: 1rem;
 `
 
@@ -63,9 +64,10 @@ render(
 
             <Spacing space="2rem" overhang="4em" >
                 <Bar>
-                    <Search/>
+                    <Border><Links/></Border>
 
                     <AlignEnd>
+                        <Search/>
                         <Session/>
                         <AddName/>
                         <AddRecord/>
