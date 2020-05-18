@@ -38,6 +38,7 @@ const Member = types.model({
     address: types.maybeNull(types.string),
     email: types.string,
     shippingCharges: types.array(ShippingCharge),
+    cashHandle: types.maybeNull(types.string),
 }).actions(self => ({
     set: (key, value) => { self[key] = value },
 
@@ -130,13 +131,13 @@ const Model = types.model({
     },
 
     acquire_session: () => {
-        graph(`query { me { id name surname email address
+        graph(`query { me { id name surname email address cashHandle
             holds { id recordId beginsOn expiresOn }
             shippingCharges { price holdId }
         } }`)()
         .then(response => {
             self.claim_session(response.me)
-            self.claim_holds(response.me.holds)
+            response.me && self.claim_holds(response.me.holds)
         })
     },
 

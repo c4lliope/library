@@ -13,12 +13,9 @@ const AddName = observer(() => (
     model.addingName
     ?
         <Modal onBackgroundClick={() => model.set("addingName", false)}>
-            Add your name and address, or &nbsp;
-            <a href="#" onClick={() => model.set("addingName", false)}>cancel.</a>
-
             <p>
-                By adding your name and address, you agree:<br/>
-                your name and address may be shared among your peers.
+                By adding your name and addresses, you agree:<br/>
+                your name and addresses may be shared among your peers.
             </p>
 
             
@@ -30,6 +27,9 @@ const AddName = observer(() => (
 
             <Label>Address:</Label>
             <Field model={model.me} claim="address" as="textarea" />
+
+            <Label>Cash Handle:</Label>
+            <Field model={model.me} claim="cashHandle" />
             
         </Modal>
         : model.me ?

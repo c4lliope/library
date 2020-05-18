@@ -6,6 +6,9 @@ import styled from "styled-components"
 import Modal from "./modal"
 import Field from "./field"
 
+import { mdiRefresh } from "@mdi/js"
+import Icon from "@mdi/react"
+
 const Links = styled.div`
 display: flex;
 flex-direction: column;
@@ -26,7 +29,7 @@ const FocusedRecord = observer(() => (
                 <a
                 href='#'
                 onClick={() => model.drop_record(model.focused_record.id)}
-                >drop record.</a>
+                >drop record.</a> ~small bug: a page delay, click <Icon path={mdiRefresh} size/>
               </div>
             : null
             }
