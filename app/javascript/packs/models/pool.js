@@ -4,7 +4,7 @@ import { Luxon } from "./index"
 
 const PoolCharge = types.model({
     price: types.maybeNull(types.number),
-    donor_handle: types.string,
+    donorHandle: types.string,
     pool: types.string,
     paidOn: Luxon,
 })
