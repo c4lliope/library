@@ -1,16 +1,11 @@
 import { types } from "mobx-state-tree"
-import { DateTime } from "luxon"
+
 import graph from "../graph"
+import Luxon from "./luxon"
+
+import Pool from "./pool"
 
 var delays = {}
-
-window.DateTime = DateTime
-const LuxonDate = types.custom({
-    fromSnapshot: (value) => DateTime.fromISO(value),
-    toSnapshot: (value) => value.toISODate(),
-    isTargetType: (value) => value.isLuxonDateTime,
-    getValidationMessage: (value) => { let d = DateTime.fromISO(value); return d.invalid && d.invalid.explanation },
-})
 
 const GoodreadsResponse = types.model({
     id: types.identifier,
@@ -22,13 +17,6 @@ const GoodreadsResponse = types.model({
 const ShippingCharge = types.model({
     price: types.number,
     holdId: types.reference(types.late(() => Hold)),
-})
-
-const PoolCharge = types.model({
-    price: types.number,
-    donor_handle: types.string,
-    pool: types.string,
-    paidOn: LuxonDate,
 })
 
 const Member = types.model({
@@ -76,8 +64,8 @@ const Record = types.model({
 const Hold = types.model({
     id: types.identifier,
     recordId: types.reference(Record),
-    beginsOn: LuxonDate,
-    expiresOn: LuxonDate,
+    beginsOn: Luxon,
+    expiresOn: Luxon,
 })
 
 const Model = types.model({
@@ -243,21 +231,5 @@ const Model = types.model({
     }
 }))
 
-const Pool = types.model({
-    pool_charges: types.array(PoolCharge),
-}).actions(self => ({
-    acquire_charges: (pool) => {
-        graph(`query ($pool: String!) { poolCharges (pool: $pool) { donorHandle price paidOn pool } }`)
-        ({ pool: pool })
-        .then(response => self.claim("pool_charges", response.poolCharges))
-    },
-
-    claim: (key, pause) => {
-        self[key] = pause
-    }
-})).views(self => ({
-    get pool_sum() { return self.pool_charges.reduce((sum, x) => sum + x.price, 0) },
-}))
-
-export { Member, Record, Pool }
+export { Member, Record, Pool, Luxon }
 export default Model

@@ -4,7 +4,7 @@ import styled from "styled-components"
 
 const ColoredLink = styled.a`
 color: ${p => p.here ? "#f7e8bf" : "#950cd6"};
-background-color: ${p => p.here ? "#950cd6" : "#fbeed1" };
+background-color: ${p => p.here ? "#950cd6" : "#f7e8bf" };
 `
 
 const YouAreHereLink = ({ link, here }) => (
