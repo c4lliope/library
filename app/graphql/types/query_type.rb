@@ -27,6 +27,10 @@ module Types
       argument :pool, String, required: true
     end
 
+    field :reimbursals, [Types::ReimbursalType], null: false do
+      description "Reimbursed charges"
+    end
+
     def goodreads_search(search:)
       responses = Nokogiri::XML(HTTP.get([
         "https://www.goodreads.com/search/index.xml",
@@ -54,6 +58,10 @@ module Types
       else
         Record.all.limit(only).includes(:member)
       end
+    end
+
+    def reimbursals
+      Reimbursal.all
     end
 
     def me
