@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_18_000637) do
+ActiveRecord::Schema.define(version: 2020_05_20_222805) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,14 @@ ActiveRecord::Schema.define(version: 2020_05_18_000637) do
     t.string "image_address"
     t.string "goodreads_id"
     t.index ["member_id"], name: "index_records_on_member_id"
+  end
+
+  create_table "reimbursals", force: :cascade do |t|
+    t.string "medium"
+    t.string "price"
+    t.datetime "paid_on"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "sessions", force: :cascade do |t|

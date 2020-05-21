@@ -1,0 +1,2 @@
+class Reimbursal < ApplicationRecord
+end

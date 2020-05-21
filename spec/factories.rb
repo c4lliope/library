@@ -1,5 +1,11 @@
 # spec/factories.rb
 FactoryBot.define do
+  factory :reimbursal do
+    medium { "MyString" }
+    price { "MyString" }
+    paid_on { "2020-05-20 15:28:05" }
+  end
+
   factory :pool_charge do
     pool { "MyString" }
     price { 1.5 }
