@@ -4,69 +4,12 @@ import graph from "../graph"
 import Luxon from "./luxon"
 
 import Pool from "./pool"
+import Member from "./member"
+import Record from "./record"
+import Hold from "./hold"
+import GoodreadsResponse from "./goodreads_response"
 
 var delays = {}
-
-const GoodreadsResponse = types.model({
-    id: types.identifier,
-    name: types.string,
-    byline: types.string,
-    imageAddress: types.string,
-})
-
-const ShippingCharge = types.model({
-    price: types.number,
-    holdId: types.reference(types.late(() => Hold)),
-})
-
-const Member = types.model({
-    id: types.identifier,
-    name: types.maybeNull(types.string),
-    surname: types.maybeNull(types.string),
-    address: types.maybeNull(types.string),
-    email: types.string,
-    shippingCharges: types.array(ShippingCharge),
-    cashHandle: types.maybeNull(types.string),
-}).actions(self => ({
-    set: (key, value) => { self[key] = value },
-
-    change: (key, value) => {
-        graph(`mutation ($${key}: String!) {
-            changeMe (${key}: $${key}) {
-                me { ${key} }
-            }
-        }`)({ [key]: value, id: self.id })
-        .then(response => self.set(key, response.changeMe.me[key]))
-    },
-}))
-
-const Record = types.model({
-    id: types.identifier,
-    name: types.maybeNull(types.string),
-    byline: types.maybeNull(types.string),
-    summary: types.maybeNull(types.string),
-    imageAddress: types.maybeNull(types.string),
-    language: "English",
-    member: Member,
-}).actions(self => ({
-    set: (key, value) => { self[key] = value },
-
-    change: (key, value) => {
-        graph(`mutation ($id: ID!, $${key}: String!) {
-            changeRecord (id: $id, ${key}: $${key}) {
-                record { ${key} }
-            }
-        }`)({ [key]: value, id: self.id })
-        .then(response => self.set(key, response.changeRecord.record[key]))
-    },
-}))
-
-const Hold = types.model({
-    id: types.identifier,
-    recordId: types.reference(Record),
-    beginsOn: Luxon,
-    expiresOn: Luxon,
-})
 
 const Model = types.model({
     records: types.array(Record),
@@ -91,11 +34,8 @@ const Model = types.model({
     
 }).views(self => ({
     get money() {
-        var price = 0
-        self.me.shippingCharges.forEach(x => price += x.price)
-        return (price
-            )
-        },
+        return self.me.shippingCharges.reduce((sum, x) => sum + x.price, 0)
+    },
 })).actions(self => ({
     add_record: (name, byline, imageAddress) => {
         graph(`mutation ($name: String, $byline: String, $imageAddress: String) {

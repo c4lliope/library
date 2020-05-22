@@ -3,9 +3,9 @@ import graph from "../graph"
 import { Luxon } from "./index"
 
 const PoolCharge = types.model({
-    price: types.maybeNull(types.number),
+    price: 0,
     donorHandle: types.string,
-    pool: types.string,
+    pool: "mail",
     paidOn: Luxon,
 })
 
