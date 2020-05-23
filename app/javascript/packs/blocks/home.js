@@ -46,7 +46,7 @@ const Home = observer(() => (
     ? (
         model.display === "grid"
         ? <>
-        <Middle><a href="#" onClick={() => model.set("display", "card")}>Display as cards.</a></Middle>
+        <Middle><a href="#" onClick={() => model.claim("display", "card")}>Display as cards.</a></Middle>
         <GridLay>
             {model.records.map(record => (
                 <GridBar
@@ -68,7 +68,7 @@ const Home = observer(() => (
         </GridLay>
         </>
         : <>
-        <Middle><a href="#" onClick={() => model.set("display", "grid")}>Display as grid.</a></Middle>
+        <Middle><a href="#" onClick={() => model.claim("display", "grid")}>Display as grid.</a></Middle>
         <CardLay>
             {model.records.map(record => (
                 <Record

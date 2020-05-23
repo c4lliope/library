@@ -1,6 +1,7 @@
 import { types } from "mobx-state-tree"
 
 import Luxon from "./luxon"
+import ShippingCharge from "./shipping_charge"
 import Record from "./record"
 
 const Hold = types.model({

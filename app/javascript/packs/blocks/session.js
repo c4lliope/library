@@ -18,7 +18,7 @@ const Session = observer(() => {
     if(!model.me) {
         return (
             model.session_pending
-            ?  <div>Please check your email, or <a href="#" onClick={() => model.set("session_pending", false)}>sign in again</a>.</div>
+            ?  <div>Please check your email, or <a href="#" onClick={() => model.claim("session_pending", false)}>sign in again</a>.</div>
             :
                 <>
                     <SessionField ref={input} type="email" placeholder="email" />
@@ -29,7 +29,7 @@ const Session = observer(() => {
     return (
         <div>
             Signed in as {model.me.name || model.me.email}.
-            &nbsp;<a href="#" onClick={() => { model.set("me", null); localStorage.removeItem("code") }}>end session.</a>
+            &nbsp;<a href="#" onClick={() => { model.claim("me", null); localStorage.removeItem("code") }}>end session.</a>
         </div>
     )
 })

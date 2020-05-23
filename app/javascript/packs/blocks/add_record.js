@@ -37,12 +37,15 @@ margin-right: 1rem;
 const AddRecord = observer(() => (
     <>
         {model.me &&
-        <a href="#" onClick={() => model.set("goodreads_search", "")} >Supply a book.</a>
+        <a href="#" onClick={() => model.claim("goodreads_search", "")} >Supply a book.</a>
+        }<br/>
+        {model.me &&
+        <a href="#" onClick={() => model.add_record("", "", null)} >Add a blank record.</a>
         }
 
         {model.goodreads_search === null
         ? null
-        : <Modal onBackgroundClick={() => model.set("goodreads_search", null)} >
+        : <Modal onBackgroundClick={() => model.claim("goodreads_search", null)} >
             <BaseField
               ref={e => e && e.focus()}
               onChange={(e) => model.delay("goodreads_search", e.target.value, 1000, () => model.run_goodreads_search())}
@@ -55,8 +58,8 @@ const AddRecord = observer(() => (
                         key={response.id}
                         onClick={() => {
                             model.focus_record(model.add_record(response.name, response.byline, response.imageAddress))
-                            model.set("goodreads_responses", [])
-                            model.set("goodreads_search", null)
+                            model.claim("goodreads_responses", [])
+                            model.claim("goodreads_search", null)
                         }}
                     >
                         <Image src={response.imageAddress} alt={`${response.name} by ${response.byline}`} />

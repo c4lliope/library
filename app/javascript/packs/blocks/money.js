@@ -7,10 +7,10 @@ const Money = observer(() => (
     model.me &&
     <>
         Your money: {model.money}.
-        &nbsp;<a href="#" onClick={() => model.set("claimMoneyModal", true)}>claim your money.</a>
+        &nbsp;<a href="#" onClick={() => model.claim("claimMoneyModal", true)}>claim your money.</a>
 
         {model.claimMoneyModal
-        ? <Modal onBackgroundClick={() => model.set("claimMoneyModal", false)}>
+        ? <Modal onBackgroundClick={() => model.claim("claimMoneyModal", false)}>
             Program Pending: reimburse shipping charges.
         </Modal>
         : null

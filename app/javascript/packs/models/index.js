@@ -108,7 +108,7 @@ const Model = types.model({
     claim_session: (me) => self.me = me,
 
     delay: (key, value, delay, callback) => {
-        self.set(key, value)
+        self.claim(key, value)
 
         if(delays[key]) clearTimeout(delays[key])
         delays[key] = setTimeout(callback, delay)
@@ -138,7 +138,7 @@ const Model = types.model({
         graph(`mutation ($recordId: ID!) { placeHold(recordId: $recordId) { hold { beginsOn expiresOn } } }`)
         ({ recordId: record.id })
         .then(response => {
-            self.set("displaying_holds", true)
+            self.claim("displaying_holds", true)
             self.acquire_session()
         })
     },
@@ -155,13 +155,13 @@ const Model = types.model({
         .then(response => self.claim_goodreads_responses(response.goodreadsSearch))
     },
 
-    set: (key, value) => { self[key] = value },
+    claim: (key, value) => { self[key] = value },
     
     sign_in: ({ email }) => {
         graph(`mutation ($email: String!) { signIn(email: $email) { code }}`)({ email: email })
         .then((response) => {
             response.signIn.code
-            ? self.set("session_pending", true)
+            ? self.claim("session_pending", true)
             : null
         })
     },

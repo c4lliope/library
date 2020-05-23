@@ -1,5 +1,6 @@
 import { types } from "mobx-state-tree"
 
+import graph from "../graph"
 import ShippingCharge from "./shipping_charge"
 
 const Member = types.model({
@@ -11,7 +12,7 @@ const Member = types.model({
     shippingCharges: types.array(ShippingCharge),
     cashHandle: types.maybeNull(types.string),
 }).actions(self => ({
-    set: (key, value) => { self[key] = value },
+    claim: (key, value) => { self[key] = value },
 
     change: (key, value) => {
         graph(`mutation ($${key}: String!) {
@@ -19,7 +20,7 @@ const Member = types.model({
                 me { ${key} }
             }
         }`)({ [key]: value, id: self.id })
-        .then(response => self.set(key, response.changeMe.me[key]))
+        .then(response => self.claim(key, response.changeMe.me[key]))
     },
 }))
 

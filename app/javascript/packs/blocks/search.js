@@ -20,7 +20,7 @@ const Search = observer(() => (
             type="text"
             placeholder="search"
             value={model.search}
-            onChange={(e) => model.set("search", e.target.value)}
+            onChange={(e) => model.claim("search", e.target.value)}
             onKeyDown={(e) => { if(e.keyCode === 13) model.run_search(); else return true }}
         />
 

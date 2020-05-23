@@ -1,5 +1,6 @@
 import { types } from "mobx-state-tree"
 
+import graph from "../graph"
 import Member from "./member"
 
 const Record = types.model({
@@ -11,7 +12,7 @@ const Record = types.model({
     language: "English",
     member: types.late(() => Member),
 }).actions(self => ({
-    set: (key, value) => { self[key] = value },
+    claim: (key, value) => { self[key] = value },
 
     change: (key, value) => {
         graph(`mutation ($id: ID!, $${key}: String!) {
@@ -19,7 +20,7 @@ const Record = types.model({
                 record { ${key} }
             }
         }`)({ [key]: value, id: self.id })
-        .then(response => self.set(key, response.changeRecord.record[key]))
+        .then(response => self.claim(key, response.changeRecord.record[key]))
     },
 }))
 

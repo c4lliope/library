@@ -12,7 +12,7 @@ color: grey;
 const AddName = observer(() => (
     model.addingName
     ?
-        <Modal onBackgroundClick={() => model.set("addingName", false)}>
+        <Modal onBackgroundClick={() => model.claim("addingName", false)}>
             <p>
                 By adding your name and addresses, you agree:<br/>
                 your name and addresses may be shared among your peers.
@@ -36,9 +36,9 @@ const AddName = observer(() => (
         (model.me.name === null || model.me.surname === null || model.me.address === null)
         ? <div>
             Nearly done -
-            <a href="#" onClick={() => model.set("addingName", true)}>Add your name and address.</a>
+            <a href="#" onClick={() => model.claim("addingName", true)}>Add your name and address.</a>
           </div>
-        : <div><a href="#" onClick={() => model.set("addingName", true)}>change name or address.</a></div>
+        : <div><a href="#" onClick={() => model.claim("addingName", true)}>change name or address.</a></div>
       : null
 ))
 

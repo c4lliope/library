@@ -6,7 +6,7 @@ import styled from "styled-components"
 const BaseField = styled.input`
 padding: 0.5rem;
 ${p => p.as === "textarea"
-? "width: 30rem; height: 6rem;"
+? "width: 20rem; height: 6rem;"
 : null
 }
 `
@@ -28,12 +28,12 @@ const Field = observer(({ as, model, claim }) => {
                 ref={e => e && e.focus()}
                 as={as || "input"}
                 placeholder={claim}
-                value={model[claim]}
-                onChange={e => model.set(claim, e.target.value)}
+                value={model[claim] || ""}
+                onChange={e => model.claim(claim, e.target.value)}
                 />
                 <a href="#" onClick={() => {model.change(claim, model[claim]); changeEditing(false) }}>remember change</a>
                 &nbsp;or&nbsp;
-                <a href="#" onClick={() => {model.set(claim, originalValue); changeEditing(false) }}>cancel</a>
+                <a href="#" onClick={() => {model.claim(claim, originalValue); changeEditing(false) }}>cancel</a>
             </Spacing>
         :
             <Spacing onClick={() => { changeOriginalValue(getSnapshot(model)[claim]); changeEditing(true) }}>
