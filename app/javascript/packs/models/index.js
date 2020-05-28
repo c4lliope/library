@@ -38,12 +38,10 @@ const Model = types.model({
     },
 })).actions(self => ({
     add_record: (name, byline, imageAddress) => {
-        graph(`mutation ($name: String, $byline: String, $imageAddress: String) {
+        graph(`query ($name: String, $byline: String, $imageAddress: String) {
             addRecord (name: $name, byline: $byline, imageAddress: $imageAddress) {
-                record {
-                    id name byline imageAddress
-                    member { id name email }
-                }
+                id name byline imageAddress
+                member { id name email }
             }
         }`)({ name, byline, imageAddress })
         .then(response => {
@@ -70,18 +68,18 @@ const Model = types.model({
     },
 
     change_me: (changes) => {
-        graph(`mutation ($name: String!, $surname: String!, $address: String!) {
+        graph(`query ($name: String!, $surname: String!, $address: String!) {
             changeMe (name: $name, surname: $surname, address: $address) {
-                me { id name surname email address }
+                id name surname email address
             }
         }`)(changes)
         .then(response => self.claim_session(response.changeMe.me))
     },
 
     change_record: (id, changes) => {
-        graph(`mutation ($id: ID!, $name: String!, $byline: String!, $summary: String) {
+        graph(`query ($id: ID!, $name: String!, $byline: String!, $summary: String) {
             changeRecord (id: $id, name: $name, byline: $byline, summary: $summary {
-                record { id, name, byline, summary }
+                id, name, byline, summary
             }
         }`)({ ...changes, id })
         .then(response => self.claim_record(response.changeRecord.record))
@@ -118,7 +116,7 @@ const Model = types.model({
         if(self.focused_record.id === id)
             self.focus_record(null)
 
-        graph(`mutation ($id: ID!) { dropRecord(id: $id) { id }}`)({ id })
+        graph(`query ($id: ID!) { dropRecord(id: $id) { id }}`)({ id })
         .then(response => response.dropRecord.id ? self.unclaim_record(response.dropRecord.id) : null)
     },
 
@@ -135,7 +133,7 @@ const Model = types.model({
     },
 
     place_hold: (record) => {
-        graph(`mutation ($recordId: ID!) { placeHold(recordId: $recordId) { hold { beginsOn expiresOn } } }`)
+        graph(`query ($recordId: ID!) { placeHold(recordId: $recordId) { beginsOn expiresOn } }`)
         ({ recordId: record.id })
         .then(response => {
             self.claim("displaying_holds", true)
@@ -144,13 +142,17 @@ const Model = types.model({
     },
 
     run_search: () => {
-        graph(`query ($search: String) { records(search: $search) { id name byline summary member { id name email }}}`)
+        graph(`query ($search: String) { records(search: $search) {
+            id name byline summary member { id name email }
+        }}`)
         ({ search: self.search || null })
         .then(response => self.claim_records(response.records) )
     },
 
     run_goodreads_search: () => {
-        graph(`query ($search: String!) { goodreadsSearch (search: $search) { id name byline imageAddress }}`)
+        graph(`query ($search: String!) { goodreadsSearch (search: $search) {
+            id name byline imageAddress
+        }}`)
         ({ search: self.goodreads_search })
         .then(response => self.claim_goodreads_responses(response.goodreadsSearch))
     },
@@ -158,9 +160,9 @@ const Model = types.model({
     claim: (key, value) => { self[key] = value },
     
     sign_in: ({ email }) => {
-        graph(`mutation ($email: String!) { signIn(email: $email) { code }}`)({ email: email })
+        graph(`query ($email: String!) { signIn(email: $email) { email }}`)({ email: email })
         .then((response) => {
-            response.signIn.code
+            response.signIn.email
             ? self.claim("session_pending", true)
             : null
         })

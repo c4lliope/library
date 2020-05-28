@@ -15,7 +15,7 @@ const Record = types.model({
     claim: (key, value) => { self[key] = value },
 
     change: (key, value) => {
-        graph(`mutation ($id: ID!, $${key}: String!) {
+        graph(`query ($id: ID!, $${key}: String!) {
             changeRecord (id: $id, ${key}: $${key}) {
                 record { ${key} }
             }

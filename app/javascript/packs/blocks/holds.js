@@ -29,7 +29,8 @@ const Holds = observer(() => (
 
                         {hold.recordId.name} by {hold.recordId.byline},
 
-                        <Field model={hold.shippingCharge} claim="price" />
+                        <div>Price</div>
+                        {/* <Field model={hold.shippingCharge} claim="price" /> */}
                     </Hold>
                 ))}
             </Modal>

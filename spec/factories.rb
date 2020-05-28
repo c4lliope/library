@@ -1,5 +1,10 @@
 # spec/factories.rb
 FactoryBot.define do
+  factory :bank_card do
+    name { "MyString" }
+    nonce { "MyString" }
+  end
+
   factory :reimbursal do
     medium { "MyString" }
     price { "MyString" }

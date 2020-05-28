@@ -15,12 +15,12 @@ const Member = types.model({
     claim: (key, value) => { self[key] = value },
 
     change: (key, value) => {
-        graph(`mutation ($${key}: String!) {
+        graph(`query ($${key}: String!) {
             changeMe (${key}: $${key}) {
-                me { ${key} }
+                ${key}
             }
         }`)({ [key]: value, id: self.id })
-        .then(response => self.claim(key, response.changeMe.me[key]))
+        .then(response => self.claim(key, response.changeMe[key]))
     },
 }))
 

@@ -18,6 +18,12 @@ const Pool = types.model({
         .then(response => self.claim("pool_charges", response.poolCharges))
     },
 
+    add_bank_card: ({ nonce }) => {
+        graph(`query ($nonce: String!) { addBankCard (nonce: $nonce) { nonce } }`)
+        ({ nonce })
+        .then(response => { console.log(response.data.nonce); debugger; })
+    },
+
     claim: (key, pause) => {
         self[key] = pause
     }

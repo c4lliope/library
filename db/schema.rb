@@ -10,10 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_20_222805) do
+ActiveRecord::Schema.define(version: 2020_05_24_021421) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "bank_cards", force: :cascade do |t|
+    t.string "name"
+    t.string "nonce"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "holds", force: :cascade do |t|
     t.bigint "member_id", null: false
@@ -42,7 +49,7 @@ ActiveRecord::Schema.define(version: 2020_05_20_222805) do
   create_table "pool_charges", force: :cascade do |t|
     t.string "pool"
     t.float "price"
-    t.string "donor_handle"
+    t.string "bank_card_nonce"
     t.datetime "paid_on"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
