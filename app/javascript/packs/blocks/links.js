@@ -19,6 +19,8 @@ const YouAreHereLink = ({ link, here }) => (
 
 const Links = observer(({ here }) => (
     <div>
+        born in Los Angeles,<br/>
+        raised in Michigan.
         <h3>Links</h3>
 
         <YouAreHereLink here={here} link="/" /><br/>
