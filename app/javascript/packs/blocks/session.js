@@ -5,6 +5,10 @@ import styled from "styled-components"
 import { mdiArrowRight } from "@mdi/js"
 import Icon from "@mdi/react"
 
+var Spacing = styled.div`
+margin: 1rem;
+`
+
 const SessionField = styled.input`
 background: none;
 border: none;
@@ -20,10 +24,12 @@ const Session = observer(() => {
             model.session_pending
             ?  <div>Please check your email, or <a href="#" onClick={() => model.claim("session_pending", false)}>sign in again</a>.</div>
             :
-                <>
+                <Spacing>
                     <SessionField ref={input} type="email" placeholder="email" />
-                    <a href="#" onClick={(e) => model.sign_in({ email: input.current.value })} >Begin session.</a>
-                </>
+                    <a href="#" onClick={(e) => model.sign_in({ email: input.current.value })} >
+                        Begin session.
+                    </a>
+                </Spacing>
         )
     }
     return (

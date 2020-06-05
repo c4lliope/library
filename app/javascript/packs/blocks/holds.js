@@ -7,8 +7,10 @@ import Field from "./field"
 
 const Hold = styled.div`
 display: grid;
-grid-template-columns: 1fr auto 1fr;
+grid-template-columns: auto 1fr auto;
 grid-column-gap: 1rem;
+padding: 0.5rem;
+border-top: 1px solid grey;
 `
 
 const Holds = observer(() => (
@@ -23,11 +25,11 @@ const Holds = observer(() => (
                 {model.holds.map(hold => (
                     <Hold key={hold.id}>
                         <div>
-                        beginning {hold.beginsOn.toISODate()}<br/>
-                        ending {hold.expiresOn.toISODate()}.
+                        {hold.beginsOn.toISODate()}<br/>
+                        {hold.expiresOn.toISODate()}
                         </div>
 
-                        {hold.recordId.name} by {hold.recordId.byline},
+                        {hold.recordId.name} by {hold.recordId.byline}
 
                         <div>Price</div>
                         {/* <Field model={hold.shippingCharge} claim="price" /> */}

@@ -9,6 +9,7 @@ module Types
     field :add_bank_card, Types::BankCardType, null: false do
       description "Add a bank card by nonce"
       argument :nonce, String, required: true
+      argument :name, String, required: false
     end
 
     field :add_record, Types::RecordType, null: false do
@@ -30,6 +31,12 @@ module Types
       argument :name, String, required: false
       argument :byline, String, required: false
       argument :summary, String, required: false
+    end
+
+    field :charge_bank_card, Types::PoolChargeType, null: true do
+      argument :pool, String, required: true
+      argument :nonce, String, required: true
+      argument :price, Float, required: true
     end
 
     field :drop_record, ID, null: false do
@@ -69,8 +76,8 @@ module Types
       argument :email, String, required: true
     end
 
-    def add_bank_card(nonce:)
-      BankCard.create(nonce: nonce, name: "Bank card added on #{Time.current.to_date}")
+    def add_bank_card(nonce:, name: nil)
+      BankCard.create(nonce: nonce, name: name || "Bank card added on #{Time.current.to_date}")
     end
 
     def add_record(name: "", byline: "", summary: nil, image_address: nil)
@@ -91,9 +98,10 @@ module Types
       end
     end
 
-    def charge_bank_card(nonce:, price: 0)
+    def charge_bank_card(nonce:, price: 0, pool:)
       PoolCharge.create({
-        bank_card: nonce,
+        pool: pool,
+        bank_card_nonce: nonce,
         price: price,
         paid_on: Time.current
       })

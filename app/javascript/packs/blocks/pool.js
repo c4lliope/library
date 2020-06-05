@@ -1,7 +1,9 @@
 import React from "react"
 import { observer } from "mobx-react"
+import styled from "styled-components"
 
 import Border from "./border"
+import { BaseField } from "./field"
 
 const Pool = observer(({ pool }) => (
     <Border>
