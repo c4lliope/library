@@ -17,7 +17,7 @@ const Record = types.model({
     change: (key, value) => {
         graph(`query ($id: ID!, $${key}: String!) {
             changeRecord (id: $id, ${key}: $${key}) {
-                record { ${key} }
+                ${key}
             }
         }`)({ [key]: value, id: self.id })
         .then(response => self.claim(key, response.changeRecord.record[key]))
