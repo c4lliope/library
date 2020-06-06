@@ -1,5 +1,6 @@
 require "http"
 require "nokogiri"
+require 'square'
 
 module Types
   class QueryType < Types::BaseObject
@@ -99,6 +100,30 @@ module Types
     end
 
     def charge_bank_card(nonce:, price: 0, pool:)
+      client = Square::Client.new(
+          access_token: "EAAAEFxcAjatz7BQqnYkp8WxvXSHHp2Onfd5UeFgIDxtTufwtqXuhbCdNlxKXGV3",
+          environment: 'sandbox'
+      )
+
+      payments_api = client.payments
+      body = {
+        source_id: 'cnon:CBASEODyJQD6aZIDkyxyteeFGKw',
+        idempotency_key: SecureRandom.uuid,
+        amount_money: { amount: (price.to_f * 100), currency: "USD" },
+        app_fee_money: { amount: 0, currency: "USD" },
+        autocomplete: true,
+        reference_id: '123456',
+        note: 'Brief description',
+      }
+
+      result = payments_api.create_payment(body: body)
+
+      if result.success?
+        puts result.data
+      elsif result.error?
+        warn result.errors
+      end
+
       PoolCharge.create({
         pool: pool,
         bank_card_nonce: nonce,

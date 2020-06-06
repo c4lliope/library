@@ -23,6 +23,7 @@ gem "recipient_interceptor"
 gem "sassc-rails"
 gem "skylight"
 gem "sprockets", ">= 3.0.0"
+gem 'square.rb'
 gem "title"
 gem "tzinfo-data", platforms: [:mingw, :x64_mingw, :mswin, :jruby]
 gem "webpacker"
@@ -48,6 +49,7 @@ end
 group :test do
   gem "formulaic"
   gem "launchy"
+  gem "selenium-webdriver"
   gem "simplecov", require: false
   gem "timecop"
   gem "webmock"
