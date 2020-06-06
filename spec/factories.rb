@@ -1,5 +1,11 @@
 # spec/factories.rb
 FactoryBot.define do
+  factory :page_load do
+    on { "2020-06-06 11:05:55" }
+    label { "MyString" }
+    address { "MyString" }
+  end
+
   factory :bank_card do
     name { "MyString" }
     nonce { "MyString" }
