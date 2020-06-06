@@ -14,13 +14,6 @@ const Pool = observer(({ pool }) => (
         Handle: $c4lliope<br/>
         Message: "{pool}"<br/>
         </p>
-        <div id="form-container">
-            <div id="sq-card-number"></div>
-            <div id="sq-expiration-date"></div>
-            <div id="sq-cvv"></div>
-            <div id="sq-postal-code"></div>
-            <button id="sq-creditcard" onClick={(e) => model.paymentForm.requestCardNonce()}>Pay $1.00</button>
-        </div>
     </Border>
 ))
 
