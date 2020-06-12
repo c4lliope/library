@@ -24,7 +24,7 @@ const Model = types.model({
     cameraIsOpen: false,
     addingName: false,
     session_pending: false,
-    display: "grid",
+    display: "card",
     claimMoneyModal: false,
 
     goodreads_search: types.maybeNull(types.string),
