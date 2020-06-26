@@ -1,5 +1,5 @@
-module Types
-  class MemberType < Types::BaseObject
+module Graph
+  class MemberType < Graph::BaseObject
 
     field :id, ID, null: false
     field :email, String, null: false
@@ -8,8 +8,8 @@ module Types
     field :address, String, null: true
     field :cash_handle, String, null: true
     
-    field :holds, [Types::HoldType], null: false
-    field :shipping_charges, [Types::ShippingChargeType], null: false
+    field :holds, [Graph::HoldType], null: false
+    field :shipping_charges, [Graph::ShippingChargeType], null: false
 
     def full_name
       [object.name, object.surname].compact.join(" ")

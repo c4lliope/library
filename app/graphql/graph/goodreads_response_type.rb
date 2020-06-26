@@ -1,5 +1,5 @@
-module Types
-  class GoodreadsResponseType < Types::BaseObject
+module Graph
+  class GoodreadsResponseType < Graph::BaseObject
     field :id, String, null: false
     field :name, String, null: false
     field :byline, String, null: false

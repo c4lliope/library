@@ -1,39 +1,39 @@
 require "http"
 require "nokogiri"
 
-module Types
-  class QueryType < Types::BaseObject
+module Graph
+  class Query < Graph::BaseObject
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
 
-    field :add_bank_card, Types::BankCardType, null: false do
+    field :add_bank_card, Graph::BankCardType, null: false do
       description "Add a bank card by nonce"
       argument :nonce, String, required: true
       argument :name, String, required: false
     end
 
-    field :add_record, Types::RecordType, null: false do
+    field :add_record, Graph::RecordType, null: false do
       argument :name, String, required: false
       argument :byline, String, required: false
       argument :summary, String, required: false
       argument :image_address, String, required: false
     end
 
-    field :change_me, Types::MemberType, null: true do
+    field :change_me, Graph::MemberType, null: true do
       argument :name, String, required: false
       argument :surname, String, required: false
       argument :address, String, required: false
       argument :cash_handle, String, required: false
     end
 
-    field :change_record, Types::RecordType, null: false do
+    field :change_record, Graph::RecordType, null: false do
       argument :id, ID, required: true
       argument :name, String, required: false
       argument :byline, String, required: false
       argument :summary, String, required: false
     end
 
-    field :charge_bank_card, Types::PoolChargeType, null: true do
+    field :charge_bank_card, Graph::PoolChargeType, null: true do
       argument :pool, String, required: true
       argument :nonce, String, required: true
       argument :price, Float, required: true
@@ -43,36 +43,36 @@ module Types
       argument :id, ID, required: true
     end
 
-    field :goodreads_search, [Types::GoodreadsResponseType], null: false do
+    field :goodreads_search, [Graph::GoodreadsResponseType], null: false do
       description "Goodreads books based on a search."
       argument :search, String, required: true
     end
 
     field :me,
-      Types::MemberType,
+      Graph::MemberType,
       null: true,
       description: "Signed-in member."
 
-    field :records, [Types::RecordType], null: false do
+    field :records, [Graph::RecordType], null: false do
       description "Library records."
       argument :only, Integer, required: false, default_value: 21, prepare: ->(only, ctx) { [only, 30].min }
       argument :search, String, required: false, default_value: nil
     end
 
-    field :reimbursals, [Types::ReimbursalType], null: false do
+    field :reimbursals, [Graph::ReimbursalType], null: false do
       description "Reimbursed charges"
     end
 
-    field :place_hold, Types::HoldType, null: false do
+    field :place_hold, Graph::HoldType, null: false do
       argument :record_id, ID, required: true
     end
 
-    field :pool_charges, [Types::PoolChargeType], null: false do
+    field :pool_charges, [Graph::PoolChargeType], null: false do
       description "All charges for a pool"
       argument :pool, String, required: true
     end
 
-    field :sign_in, Types::MemberType, null: false do
+    field :sign_in, Graph::MemberType, null: false do
       argument :email, String, required: true
     end
 

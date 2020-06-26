@@ -1,5 +1,5 @@
 class LibrarySchema < GraphQL::Schema
-  query(Types::QueryType)
+  query(Graph::QueryType)
 
   # Opt in to the new runtime (default in future graphql-ruby versions)
   use GraphQL::Execution::Interpreter

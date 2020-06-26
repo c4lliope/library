@@ -1,5 +1,5 @@
-module Types
-    class HoldType < Types::BaseObject
+module Graph
+    class HoldType < Graph::BaseObject
       field :id, ID, null: false
       field :record_id, ID, null: false
       field :record, RecordType, null: false

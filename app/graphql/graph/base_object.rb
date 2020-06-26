@@ -1,5 +1,5 @@
-module Types
+module Graph
   class BaseObject < GraphQL::Schema::Object
-    field_class Types::BaseField
+    field_class Graph::BaseField
   end
 end
