@@ -131,12 +131,13 @@ module Graph
       keys[:name] = name if name
       keys[:byline] = byline if byline
       keys[:summary] = summary if summary
-
       record = Record.find(id)
-      if(record) # .member == context[:signed_in_member]
+
+      if(record && record.member == context[:signed_in_member])
         record.update(keys)
-        record
       end
+
+      record
     end
 
     def drop_record(id:)
