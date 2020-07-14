@@ -24,12 +24,14 @@ const Links = observer(({ here }) => (
         publishing on <ImpressionableLink href="https://medium.com/our-shared-library">medium</ImpressionableLink>,<br/>
         and made by <ImpressionableLink href="https://assembled.app">assembled appeal</ImpressionableLink>.
 
+        {/* 
         <h3>Pages</h3>
 
         <YouAreHereLink here={here} link="/" /><br/>
         Become a donor -<br/>
         - <YouAreHereLink here={here} link="/mail-money-pool" /><br/>
         - <YouAreHereLink here={here} link="/librarian-salary-pool" /><br/>
+        */}
     </div>
 ))
 
