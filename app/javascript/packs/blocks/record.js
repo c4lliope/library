@@ -6,7 +6,7 @@ import md5 from "js-md5"
 import BaseBorder from "./border"
 
 const Border = styled(BaseBorder)`
-background-color: #fbeed1;
+background-color: ${(p) => p.deep ? "#d8c796" : "#fbeed1"};
 
 border: 2px solid black;
 border-radius: 4px;
@@ -39,7 +39,7 @@ height: 50px;
 `
 
 const Record = observer(({ record, onClick }) => (
-    <Border onClick={onClick}>
+    <Border deep={record.held} onClick={onClick}>
         <Headline>
             <div>
                 {record.name},

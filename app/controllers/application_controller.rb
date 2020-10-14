@@ -6,7 +6,8 @@ class ApplicationController < ActionController::Base
         return nil if code == "null"
 
         session = Session.find_by(code: code)
-        return nil unless session &&\
+        return nil unless \
+            session &&\
             session.claimed &&\
             session.claimed < Time.current &&\
             session.expires > Time.current

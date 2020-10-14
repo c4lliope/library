@@ -116,7 +116,7 @@ const Model = types.model({
         if(self.focused_record.id === id)
             self.focus_record(null)
 
-        graph(`query ($id: ID!) { dropRecord(id: $id) }`)({ id })
+        graph(`query ($id: ID!) { dropRecord(id: $id) { id } }`)({ id })
         .then(response => response.dropRecord.id ? self.unclaim_record(response.dropRecord.id) : null)
     },
 

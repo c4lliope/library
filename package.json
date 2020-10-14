@@ -27,6 +27,7 @@
     "react-dom": "^16.13.1",
     "styled-components": "^5.1.0",
     "styled-react-modal": "^2.0.1",
+    "taiko": "^1.0.12",
     "typescript": "^3.8.3"
   },
   "version": "0.1.0",
