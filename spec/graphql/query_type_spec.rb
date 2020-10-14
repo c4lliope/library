@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Types::QueryType do
+RSpec.describe Graph::QueryType do
   describe "records" do
     let!(:records) { create_pair(:record) }
 
